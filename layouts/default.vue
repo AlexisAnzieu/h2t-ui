@@ -22,7 +22,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('/images/main/accueil.jpg')`"
+                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/v1612507002/H2T/nav/accueil.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -50,7 +50,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('/images/main/${egg}.jpg')`"
+                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/v1612507002/H2T/nav/${egg}.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>

@@ -9,6 +9,17 @@
             "
             :span="24"
         >
+            <el-row>
+                <el-col style="text-align: center">
+                    <cld-image
+                        public-id="/H2T/main/undraw_festivities_tvvj_wpbxwm.svg"
+                        responsive
+                        fetchFormat="auto"
+                        quality="auto"
+                        loading="lazy"
+                    />
+                </el-col>
+            </el-row>
             <strong v-if="this.$auth.user"
                 >{{ this.$auth.user.firstName }},</strong
             ><br /><br />
@@ -24,8 +35,10 @@
             La signification de <strong>H2T</strong> n'est pas fixe. Elle peut
             varier en fonction des projets et au gré du vent donc à toi de la
             définir comme tu le souhaites. Cependant lors de sa création elle
-            portait sur trois idées: <br />
-            👉 Code postal du Plateau-Mont-Royal (projet local) <br />
+            portait sur trois idées:
+            <br />
+            👉 Code postal du Plateau-Mont-Royal (projet local)
+            <br />
             👉 House 2 Techno (projet musical) <br />
             👉 Head 2 Toe - De la tête aux pieds (projet thématique)<br />
 
@@ -71,7 +84,21 @@
             de tes accomplissements personnel dans un futur proche.
             <br />
             <br />
-            <h4>En te souhaitant une excellente {{ currentDateWord }} ❤️</h4>
+            <el-row>
+                <el-col style="text-align: center">
+                    <cld-image
+                        public-id="/H2T/main/undraw_nature_fun_n9lv_cbxidj.svg"
+                        width="60%"
+                        fetchFormat="auto"
+                        quality="auto"
+                        loading="lazy"
+                    />
+                    <h4>
+                        En te souhaitant une excellente {{ currentDateWord }} ❤️
+                    </h4>
+                </el-col>
+                <el-col :sm="24" :md="15"> </el-col>
+            </el-row>
             <el-divider></el-divider>
             PS: Si un trouble persiste dans ton esprit, envoie le à cette
             adresse email

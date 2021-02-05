@@ -80,7 +80,8 @@ export default {
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUDNAME,
     apiKey: process.env.CLOUDINARY_API_KEY,
-    apiSecret: process.env.CLOUDINARY_API_SECRET
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+    useComponent: true
   },
   auth: {
     plugins: ['~/plugins/auth.js'],
