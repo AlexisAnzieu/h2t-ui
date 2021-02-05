@@ -43,6 +43,7 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxtjs/device',
     [
       "@nuxtjs/google-analytics",
       {
@@ -82,7 +83,7 @@ export default {
     apiSecret: process.env.CLOUDINARY_API_SECRET
   },
   auth: {
-    plugins: [ '~/plugins/auth.js' ],
+    plugins: ['~/plugins/auth.js'],
     cookie: false,
     redirect: {
       login: '/login',

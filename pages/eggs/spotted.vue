@@ -29,7 +29,7 @@
         </el-table>
 
         <el-dialog
-            :fullscreen="isMobile"
+            :fullscreen="$device.isMobile"
             title="Ton beau poème"
             :visible.sync="dialogFormVisible"
         >
@@ -90,7 +90,7 @@
         </el-dialog>
 
         <el-dialog
-            :fullscreen="isMobile"
+            :fullscreen="$device.isMobile"
             :title="poem.title"
             :visible.sync="dialogPoemVisible"
         >
@@ -125,7 +125,6 @@ export default {
     auth: false,
     data() {
         return {
-            isMobile: false,
             error: false,
             sendingPoem: false,
             lockSubmit: false,
@@ -238,9 +237,6 @@ export default {
             this.poem = poem;
             this.dialogPoemVisible = true;
         },
-        handleResize: function () {
-            this.isMobile = window.innerWidth < 500;
-        },
     },
     watch: {
         "form.anonymous": function (anonymous) {
@@ -266,9 +262,6 @@ export default {
         readableDate: function (pDate) {
             return dayjs(pDate).locale("fr").format("dddd D MMMM YYYY");
         },
-    },
-    destroyed() {
-        window.removeEventListener("resize", this.handleResize);
     },
 };
 </script>

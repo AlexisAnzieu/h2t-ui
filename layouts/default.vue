@@ -3,7 +3,7 @@
         <el-row>
             <el-col
                 @mouseleave.native="leftNavWidth = 1"
-                @mouseover.native="leftNavWidth = isMobile ? 18 : 7"
+                @mouseover.native="leftNavWidth = $device.isMobile ? 18 : 7"
                 class="eggs"
                 :span="leftNavWidth"
             >
@@ -67,7 +67,7 @@
                     <el-col
                         id="headwayapp"
                         style="text-align: center; padding: 7px 0px 0px 7px"
-                        :span="this.isMobile ? 17 : 21"
+                        :span="$device.isMobile ? 17 : 21"
                     >
                     </el-col>
                     <el-col :span="2">
@@ -124,7 +124,6 @@ export default {
     data() {
         return {
             leftNavWidth: 1,
-            isMobile: false,
             warningMessage: false,
         };
     },
@@ -145,23 +144,23 @@ export default {
     },
     methods: {
         gestureHandler(gesture) {
-            if (!this.isMobile || (gesture !== "right" && !gesture.type))
+            if (
+                !this.$device.isMobile ||
+                (gesture !== "right" && !gesture.type)
+            )
                 return;
             this.leftNavWidth = gesture === "right" ? 18 : 1;
         },
-        handleResize: function () {
-            this.isMobile = window.innerWidth < 500;
-            if (this.isMobile && !this.warningMessage) {
-                this.warningMessage = true;
-                this.$message({
-                    message:
-                        "Les fonctionnalités de la version mobile de H2T sont limitées par rapport à la version bureau. Fais glisser l'écran vers la droite afin d'accéder au menu.",
-                    type: "warning",
-                    duration: 0,
-                    showClose: true,
-                    onClose: () => (this.warningMessage = false),
-                });
-            }
+        injectWarningPopUpForMobile: function () {
+            this.warningMessage = true;
+            this.$message({
+                message:
+                    "Les fonctionnalités de la version mobile de H2T sont limitées par rapport à la version bureau. Fais glisser l'écran vers la droite afin d'accéder au menu.",
+                type: "warning",
+                duration: 0,
+                showClose: true,
+                onClose: () => (this.warningMessage = false),
+            });
         },
         logout: function () {
             this.$auth.logout();
@@ -186,8 +185,9 @@ export default {
         },
     },
     async mounted() {
-        window.addEventListener("resize", this.handleResize);
-        this.handleResize();
+        if (this.$device.isMobile && !this.warningMessage) {
+            this.injectWarningPopUpForMobile();
+        }
 
         //Inject Headway app script
         let headway = document.getElementById("headwayapp");
@@ -210,9 +210,6 @@ export default {
             selector: "#headwayapp",
             account: "yEQV8y",
         });
-    },
-    destroyed() {
-        window.removeEventListener("resize", this.handleResize);
     },
 };
 </script>

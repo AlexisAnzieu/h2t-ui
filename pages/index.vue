@@ -43,8 +43,10 @@
             organismes (le coût de l'hébergement du site est de 100$/an donc nul
             besoin d'élaborer de stratégie publicitaire). En outre, il est
             possible de coder de nouvelles fonctionnalités dépendament des
-            besoins grandissant de la future communauté. Ce qui n'est pas
-            possible avec Facebook.
+            besoins grandissant de la future communauté, le code source étant
+            <a href="https://github.com/AlexisAnzieu/h2t-ui"
+                >entièrement disponible en ligne</a
+            >. Ce qui n'est pas le cas avec Facebook.
             <br />
             <br />
             <h3>Le projet a l'air sympatoche, comment s'inscrire?</h3>

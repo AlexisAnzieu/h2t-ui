@@ -62,7 +62,7 @@
         </el-row>
 
         <el-dialog
-            :fullscreen="isMobile"
+            :fullscreen="$device.isMobile"
             title="Ton prêt"
             :visible.sync="dialogFormVisible"
         >
@@ -181,7 +181,6 @@ export default {
         return {
             dialogPreviewImageUrl: "",
             dialogPreviewPicVisible: false,
-            isMobile: false,
             search: null,
             geoJSONSearch: [47.41322, -1.219482],
             error: null,
@@ -405,9 +404,6 @@ export default {
         filterTag: function (value, row) {
             return row.categories.indexOf(value) >= 0;
         },
-        handleResize: function () {
-            this.isMobile = window.innerWidth < 500;
-        },
         async addUserLevel(level) {
             return await this.$apollo
                 .mutate({
@@ -480,12 +476,7 @@ export default {
         },
     },
     mounted() {
-        window.addEventListener("resize", this.handleResize);
-        this.handleResize();
         this.search = this.$route.query.q;
-    },
-    destroyed() {
-        window.removeEventListener("resize", this.handleResize);
     },
 };
 </script>

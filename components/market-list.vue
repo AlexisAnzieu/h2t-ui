@@ -20,7 +20,7 @@
         <el-dialog
             :before-close="handleClose"
             v-if="ad.author"
-            :fullscreen="isMobile"
+            :fullscreen="$device.isMobile"
             :title="ad.title"
             :visible.sync="dialogAdVisible"
         >
@@ -81,7 +81,6 @@ export default {
     props: ["ads"],
     data() {
         return {
-            isMobile: false,
             geoJSONSearch: [47.41322, -1.219482],
             dialogAdVisible: false,
             ad: {
@@ -110,9 +109,6 @@ export default {
             });
             this.geoJSONSearch = results[0].raw.point.coordinates;
         },
-        handleResize: function () {
-            this.isMobile = window.innerWidth < 500;
-        },
         handleClose(done) {
             const { id, ...query } = this.$route.query;
             this.$router.push({ query });
@@ -133,10 +129,6 @@ export default {
                 .pop()}`;
         },
     },
-    mounted() {
-        window.addEventListener("resize", this.handleResize);
-        this.handleResize();
-    },
     watch: {
         ads: function (newVal) {
             const id = this.$route.query.id;
@@ -149,9 +141,6 @@ export default {
                 );
             }
         },
-    },
-    destroyed() {
-        window.removeEventListener("resize", this.handleResize);
     },
 };
 </script>
