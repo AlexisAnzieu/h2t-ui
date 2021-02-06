@@ -21,7 +21,7 @@
                 <el-progress
                     :width="300"
                     type="circle"
-                    :percentage="0"
+                    :percentage="10"
                 ></el-progress>
             </div>
         </el-col>

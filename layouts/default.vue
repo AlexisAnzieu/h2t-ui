@@ -22,7 +22,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/v1612507002/H2T/nav/accueil.jpg')`"
+                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/v1612507002/H2T/nav/accueil.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -50,7 +50,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/v1612507002/H2T/nav/${egg}.jpg')`"
+                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/v1612507002/H2T/nav/${egg}.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -67,8 +67,16 @@
                     <el-col
                         id="headwayapp"
                         style="text-align: center; padding: 7px 0px 0px 7px"
-                        :span="$device.isMobile ? 17 : 21"
+                        :span="$device.isMobile ? 2 : 2"
                     >
+                    </el-col>
+                    <el-col
+                        style="text-align: center; padding: 10px"
+                        :span="$device.isMobile ? 15 : 19"
+                    >
+                        <h2 v-if="$nuxt.$route.path.startsWith(`/eggs/market`)">
+                            Marché d'annonces gratuites
+                        </h2>
                     </el-col>
                     <el-col :span="2">
                         <el-dropdown

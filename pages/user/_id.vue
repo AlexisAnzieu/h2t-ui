@@ -7,18 +7,23 @@
             :md="24"
         >
             <img
-                width="200px"
+                width="178px"
+                height="178px"
+                style="border-radius: 50%"
                 :src="
                     this.user.picture
                         ? this.user.picture
                         : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
                 "
-                class="avatar"
             />
+            <br />
+            <br />
 
             <el-divider>
                 <h1>{{ this.user.firstName }} {{ this.user.lastName }}</h1>
             </el-divider>
+            <br />
+            <br />
 
             <el-popover placement="top" width="200" trigger="hover">
                 <div style="text-align: center; word-break: normal">

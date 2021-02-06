@@ -5,10 +5,9 @@
                 <el-button
                     style="width: 100%"
                     type="primary"
-                    icon="el-icon-basketball"
                     @click="dialogFormVisible = true"
                     :disabled="error === null ? false : true"
-                    >Prêter gratuitement un objet</el-button
+                    >Déposer une annonce</el-button
                 >
                 <br />
                 <br />
@@ -51,8 +50,22 @@
             </el-col>
 
             <el-col :sm="24" :md="{ span: 19, offset: 1 }">
-                <div v-if="filteredAds.length === 0 && !$apollo.loading">
-                    Aucune annonce ne correspond à tes filtres
+                <div
+                    v-if="filteredAds.length === 0 && !$apollo.loading"
+                    style="text-align: center; padding: 10px"
+                >
+                    <br />
+                    <strong
+                        >Désolé, aucune annonce ne correspond à tes
+                        filtres</strong
+                    >
+                    <cld-image
+                        public-id="/H2T/main/undraw_not_found_60pq_qtnyav.svg"
+                        :width="$device.isMobile ? '100%' : '50%'"
+                        fetchFormat="auto"
+                        quality="auto"
+                        loading="lazy"
+                    />
                 </div>
                 <market-list
                     v-loading="$apollo.loading"

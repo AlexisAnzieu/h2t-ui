@@ -13,7 +13,7 @@
                 <el-col style="text-align: center">
                     <cld-image
                         public-id="/H2T/main/undraw_festivities_tvvj_wpbxwm.svg"
-                        responsive
+                        :width="$device.isMobile ? '100%' : '50%'"
                         fetchFormat="auto"
                         quality="auto"
                         loading="lazy"
@@ -26,29 +26,25 @@
             Tout d'abord, bienvenue sur la plateforme intra-communautaire locale
             <strong>H2T</strong>! <br />
             <br />
-            Cette page d'accueil sera sujette à de nombreuses modifications dans
-            le futur. Pour le moment elle consistera à expliquer les concepts
-            majeurs.
-            <br /><br />
-
-            <h3>Que signifie H2T?</h3>
-            La signification de <strong>H2T</strong> n'est pas fixe. Elle peut
-            varier en fonction des projets et au gré du vent donc à toi de la
-            définir comme tu le souhaites. Cependant lors de sa création elle
-            portait sur trois idées:
-            <br />
-            👉 Code postal du Plateau-Mont-Royal (projet local)
-            <br />
-            👉 House 2 Techno (projet musical) <br />
-            👉 Head 2 Toe - De la tête aux pieds (projet thématique)<br />
-
-            <br />
             <h3>Plateforme intra-communautaire locale?</h3>
             Le but de cette plateforme est de créer et d'entretenir un réseau de
             relations bienveillantes à travers des projets communs locaux
             (écologie, débats, radio, musique...). Autrement dit, un forum de
             partage de biens, de service et d'idées dans un cercle restreint.
             <br />
+            <br />
+
+            <h3>Que signifie H2T?</h3>
+            La signification de H2T n'est pas fixe. Elle peut varier en fonction
+            des projets et au gré du vent donc à toi de la définir comme tu le
+            souhaites. Cependant lors de sa création elle portait sur trois
+            idées:
+            <br />
+            👉 Code postal du Plateau-Mont-Royal (projet local)
+            <br />
+            👉 House 2 Techno (projet musical) <br />
+            👉 Head 2 Toe - De la tête aux pieds (projet thématique)<br />
+
             <br />
             <h3>Pourquoi ne pas créer un groupe facebook?</h3>
             La principale raison concerne l'indépendance de cette plateforme et
@@ -100,8 +96,8 @@
                 <el-col :sm="24" :md="15"> </el-col>
             </el-row>
             <el-divider></el-divider>
-            PS: Si un trouble persiste dans ton esprit, envoie le à cette
-            adresse email
+            PS: Si un trouble persiste dans ton esprit, envoie le à l'adresse
+            email
             <a
                 rel="noopener noreferrer"
                 target="_blank"
@@ -133,5 +129,9 @@ export default {
     pointer-events: none;
     text-decoration: none;
     color: black;
+}
+
+h3 {
+    text-align: left;
 }
 </style>

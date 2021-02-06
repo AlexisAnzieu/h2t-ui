@@ -17,10 +17,11 @@
                 >
             </div>
             <div class="progress">
-                <h3>Progression du couvaison</h3>
+                <h3>Progression de la couvaison</h3>
                 <br />
-                <el-progress :width="300" type="circle" :percentage="0">
+                <el-progress :width="300" type="circle" :percentage="5">
                 </el-progress>
+                <br />
             </div>
         </el-col>
     </el-row>
