@@ -65,8 +65,12 @@ export default {
             this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation($file: Upload!, $userId: Int!) {
-                            uploadPhoto(file: $file, userId: $userId) {
+                        mutation($file: Upload!, $userId: Int!, $type: String) {
+                            uploadPhoto(
+                                file: $file
+                                userId: $userId
+                                type: $type
+                            ) {
                                 message
                                 code
                             }
@@ -75,6 +79,7 @@ export default {
                     variables: {
                         file: data,
                         userId: this.$auth.user.id,
+                        type: "profile_picture",
                     },
                 })
                 .then((resp) => {

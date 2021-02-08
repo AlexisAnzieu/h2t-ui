@@ -16,12 +16,11 @@
                     >contact@h2t.club</a
                 >
             </div>
-            <div class="progress">
-                <h3>Progression de la couvaison</h3>
-                <br />
+            <div>
                 <el-progress :width="300" type="circle" :percentage="5">
                 </el-progress>
-                <br />
+                <br /><br />
+                Progression de la couvaison
             </div>
         </el-col>
     </el-row>
@@ -37,10 +36,6 @@ export default {
 .description {
     padding-top: 20px;
     font-size: 20px;
-}
-
-.progress {
-    padding-top: 40px;
 }
 
 .layout {

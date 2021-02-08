@@ -76,13 +76,13 @@
 
         <el-dialog
             :fullscreen="$device.isMobile"
-            title="Ton prêt"
+            title="Déposer une annonce"
             :visible.sync="dialogFormVisible"
         >
             <span style="word-break: keep-all">
-                Merci beaucoup de ta participation à ce marché de prêts
-                gratuits! Si une personne est intéressée elle te contactera
-                directement par message facebook ✨✨
+                Merci beaucoup de ta participation! Si une personne est
+                intéressée elle te contactera directement par mail ou par
+                message facebook si tu as rempli ton profil✨✨
             </span>
             <el-divider></el-divider>
 
@@ -99,31 +99,22 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item>
-                    Photos
+                    Photo
                     <el-upload
+                        :on-preview="dialogPreviewImageUrls"
                         ref="picturesUpload"
-                        action="#"
-                        list-type="picture-card"
+                        class="avatar-uploader"
+                        :show-file-list="false"
                         :auto-upload="false"
                         :on-change="addPicture"
                         accept=".jpeg,.jpg,.png,image/jpeg,image/png"
                     >
-                        <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{ file }">
-                            <img
-                                class="el-upload-list__item-thumbnail"
-                                :src="file.url"
-                                alt=""
-                            />
-                            <span class="el-upload-list__item-actions">
-                                <span
-                                    class="el-upload-list__item-preview"
-                                    @click="handlePictureCardPreview(file)"
-                                >
-                                    <i class="el-icon-zoom-in"></i>
-                                </span>
-                            </span>
-                        </div>
+                        <img
+                            v-if="form.picture"
+                            :src="form.picture"
+                            class="avatar"
+                        />
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="Description" prop="description">
@@ -284,19 +275,19 @@ export default {
         },
     },
     methods: {
-        handlePictureCardPreview(file) {
-            this.dialogPreviewImageUrl = file.url;
-            this.dialogPreviewPicVisible = true;
-        },
         async addPicture(file) {
-            const isJPG = ["image/jpeg", "image/png"].includes(file.raw.type);
+            const isJPG = ["image/jpeg", "image/png", "image/jpg"].includes(
+                file.raw.type
+            );
             const isLt2M = file.size / 1024 / 1024 < 2;
 
             if (!isJPG) {
-                this.$message.error("Picture must be JPG format!");
+                this.$message.error(
+                    "La format n'est pas au format JPEG,JPG ou PNG"
+                );
             }
             if (!isLt2M) {
-                this.$message.error("Picture size can not exceed 2MB!");
+                this.$message.error("La photo est trop lourde (>2Mo) ");
             }
 
             if (isJPG && isLt2M) {
@@ -325,7 +316,7 @@ export default {
                 variables: {
                     file: this.form.picture,
                     userId: this.$auth.user.id,
-                    type: "ads",
+                    type: "ad",
                 },
             });
         },
@@ -520,5 +511,29 @@ export default {
 
 .nav-market-category:hover {
     background-color: hsl(186, 50%, 96%);
+}
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+}
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
 }
 </style>
