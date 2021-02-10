@@ -2,14 +2,24 @@
     <el-row>
         <el-col
             class="card"
-            :xs="10"
-            :sm="6"
+            :xs="12"
+            :sm="8"
+            :md="6"
             :xl="4"
             v-for="ad in ads"
             :key="ad.name"
         >
             <el-card @click.native="openAd(ad)">
-                <img :src="ad.picture" class="card-img" />
+                <cld-image
+                    class="card-img"
+                    :public-id="ad.picture"
+                    width="80%"
+                    crop="fill"
+                    fetchFormat="auto"
+                    quality="auto"
+                >
+                </cld-image>
+
                 <div class="card-desc">
                     <h3>{{ ad.title | truncate }}</h3>
                     {{ ad.description }}
@@ -26,6 +36,7 @@
         >
             proposé le {{ ad.createdAt | readableDate }} par
             <pop-profil :user="ad.author"></pop-profil>
+            <br />
             <a
                 rel="noopener noreferrer"
                 target="_blank"
@@ -34,6 +45,8 @@
                     ><em class="el-icon-message"></em> lui envoyer un email
                 </el-button></a
             >
+            <br />
+            <br />
             <a
                 rel="noopener noreferrer"
                 target="_blank"
@@ -67,7 +80,6 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import { BingProvider } from "leaflet-geosearch";
 import dayjs from "dayjs";
 
@@ -157,23 +169,33 @@ export default {
 }
 
 .card-desc {
-    height: 8vh;
+    height: 6vh;
     padding: 14px;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .card-img {
-    width: 100%;
-    height: 20vh;
-    transition: 0.5s;
+    height: 18vh;
+    transition: 0.3s;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .card-img {
+        height: 15vh;
+    }
+    .card-desc {
+        height: 9vh;
+    }
 }
 
 .card:hover .card-desc {
-    height: 26vh;
+    height: 24vh;
 }
 
 .card:hover .card-img {
     height: 0vh;
+    opacity: 0;
 }
 
 .bottom {

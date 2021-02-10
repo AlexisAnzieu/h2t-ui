@@ -101,9 +101,9 @@
                 <el-form-item>
                     Photo
                     <el-upload
-                        :on-preview="dialogPreviewImageUrls"
+                        action="#"
                         ref="picturesUpload"
-                        class="avatar-uploader"
+                        class="ad-pic-uploader"
                         :show-file-list="false"
                         :auto-upload="false"
                         :on-change="addPicture"
@@ -112,9 +112,9 @@
                         <img
                             v-if="form.picture"
                             :src="form.picture"
-                            class="avatar"
+                            class="ad-pic"
                         />
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <i v-else class="el-icon-plus ad-pic-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="Description" prop="description">
@@ -513,17 +513,17 @@ export default {
     background-color: hsl(186, 50%, 96%);
 }
 
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
+.ad-pic-uploader .el-upload {
+    border: 2px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
 }
-.avatar-uploader .el-upload:hover {
+.ad-pic-uploader .el-upload:hover {
     border-color: #409eff;
 }
-.avatar-uploader-icon {
+.ad-pic-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 178px;
@@ -531,7 +531,7 @@ export default {
     line-height: 178px;
     text-align: center;
 }
-.avatar {
+.ad-pic {
     width: 178px;
     height: 178px;
     display: block;
