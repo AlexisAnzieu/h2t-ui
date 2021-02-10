@@ -135,10 +135,7 @@ export default {
             return text.slice(0, 35) + (35 < text.length ? clamp || "..." : "");
         },
         parseFbMessenger: function (data) {
-            return `https://www.facebook.com/messages/t/${data
-                .split("/")
-                .filter(Boolean)
-                .pop()}`;
+            return `https://m.me/${data.split("/").filter(Boolean).pop()}`;
         },
     },
     watch: {
