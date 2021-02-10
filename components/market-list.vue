@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+    <el-row type="flex" style="flex-wrap: wrap">
         <el-col
             class="card"
             :xs="12"
@@ -7,7 +7,7 @@
             :md="6"
             :xl="4"
             v-for="ad in ads"
-            :key="ad.name"
+            :key="ad.id"
         >
             <el-card @click.native="openAd(ad)">
                 <cld-image
@@ -196,10 +196,5 @@ export default {
 .card:hover .card-img {
     height: 0vh;
     opacity: 0;
-}
-
-.bottom {
-    margin-top: 13px;
-    line-height: 12px;
 }
 </style>

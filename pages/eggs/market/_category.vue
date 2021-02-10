@@ -1,7 +1,7 @@
 <template>
-    <el-col style="padding-top: 30px" :lg="{ span: 21, offset: 1 }" :md="24">
+    <el-col style="padding-top: 30px" :md="{ span: 22, offset: 1 }">
         <el-row>
-            <el-col :sm="24" :md="4">
+            <el-col :sm="24" :md="3">
                 <el-button
                     style="width: 100%"
                     type="primary"
@@ -49,7 +49,7 @@
                 </div>
             </el-col>
 
-            <el-col :sm="24" :md="{ span: 19, offset: 1 }">
+            <el-col :sm="24" :md="{ span: 20, offset: 1 }">
                 <div
                     v-if="filteredAds.length === 0 && !$apollo.loading"
                     style="text-align: center; padding: 10px"
