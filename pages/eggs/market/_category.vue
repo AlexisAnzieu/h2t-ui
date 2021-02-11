@@ -283,18 +283,20 @@ export default {
                 "image/heic",
                 "image/heif",
             ].includes(file.raw.type);
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isLigh = file.size / 1024 / 1024 < 4;
 
             if (!isValidFormat) {
                 this.$message.error(
-                    "La format n'est pas au format JPEG,JPG ou PNG"
+                    "Le format de cette photo n'est pas pris en charge"
                 );
+                this.loading = false;
             }
-            if (!isLt2M) {
-                this.$message.error("La photo est trop lourde (>2Mo) ");
+            if (!isLigh) {
+                this.$message.error("La photo ne doit pas excéder 4Mo");
+                this.loading = false;
             }
 
-            if (isValidFormat && isLt2M) {
+            if (isValidFormat && isLigh) {
                 const readData = (f) =>
                     new Promise((resolve) => {
                         const reader = new FileReader();

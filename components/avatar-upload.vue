@@ -38,18 +38,20 @@ export default {
                 "image/heic",
                 "image/heif",
             ].includes(file.raw.type);
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isLight = file.size / 1024 / 1024 < 4;
 
             if (!isValidFormat) {
-                this.$message.error("Avatar picture must be JPG format!");
+                this.$message.error(
+                    "Le format de cette photo n'est pas pris en charge"
+                );
                 this.loading = false;
             }
-            if (!isLt2M) {
-                this.$message.error("Avatar picture size can not exceed 2MB!");
+            if (!isLight) {
+                this.$message.error("La photo ne doit pas excéder 4Mo");
                 this.loading = false;
             }
 
-            if (isValidFormat && isLt2M) {
+            if (isValidFormat && isLight) {
                 this.sendFile(file.raw);
             }
         },
