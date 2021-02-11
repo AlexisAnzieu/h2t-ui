@@ -107,7 +107,7 @@
                         :show-file-list="false"
                         :auto-upload="false"
                         :on-change="addPicture"
-                        accept=".jpeg,.jpg,.png,image/jpeg,image/png"
+                        accept=".jpeg,.jpg,.png,image/jpeg,image/png,.heic,image/heif,image/heic,.heif"
                     >
                         <img
                             v-if="form.picture"
@@ -276,12 +276,16 @@ export default {
     },
     methods: {
         async addPicture(file) {
-            const isJPG = ["image/jpeg", "image/png", "image/jpg"].includes(
-                file.raw.type
-            );
+            const isValidFormat = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+                "image/heic",
+                "image/heif",
+            ].includes(file.raw.type);
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG) {
+            if (!isValidFormat) {
                 this.$message.error(
                     "La format n'est pas au format JPEG,JPG ou PNG"
                 );
@@ -290,7 +294,7 @@ export default {
                 this.$message.error("La photo est trop lourde (>2Mo) ");
             }
 
-            if (isJPG && isLt2M) {
+            if (isValidFormat && isLt2M) {
                 const readData = (f) =>
                     new Promise((resolve) => {
                         const reader = new FileReader();

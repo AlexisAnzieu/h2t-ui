@@ -4,7 +4,7 @@
         class="avatar-uploader"
         :auto-upload="false"
         action=""
-        accept=".jpeg,.jpg,.png,image/jpeg,image/png"
+        accept=".jpeg,.jpg,.png,image/jpeg,image/png,.heic,image/heif,image/heic,.heif"
         :on-change="uploadAvatar"
         :show-file-list="false"
     >
@@ -31,10 +31,16 @@ export default {
     methods: {
         uploadAvatar(file) {
             this.loading = true;
-            const isJPG = ["image/jpeg", "image/png"].includes(file.raw.type);
+            const isValidFormat = [
+                "image/jpeg",
+                "image/jpg",
+                "image/png",
+                "image/heic",
+                "image/heif",
+            ].includes(file.raw.type);
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG) {
+            if (!isValidFormat) {
                 this.$message.error("Avatar picture must be JPG format!");
                 this.loading = false;
             }
@@ -43,7 +49,7 @@ export default {
                 this.loading = false;
             }
 
-            if (isJPG && isLt2M) {
+            if (isValidFormat && isLt2M) {
                 this.sendFile(file.raw);
             }
         },

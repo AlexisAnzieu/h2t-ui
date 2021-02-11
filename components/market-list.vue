@@ -172,13 +172,13 @@ export default {
 }
 
 .card-desc {
-    height: 6vh;
+    height: 8vh;
     padding: 14px;
     transition: 0.3s;
 }
 
 .card-img {
-    height: 18vh;
+    height: 20vh;
     transition: 0.3s;
     text-align: center;
 }
@@ -193,7 +193,7 @@ export default {
 }
 
 .card:hover .card-desc {
-    height: 24vh;
+    height: 28vh;
 }
 
 .card:hover .card-img {
