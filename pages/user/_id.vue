@@ -104,7 +104,7 @@ export default {
     apollo: {
         user: {
             query: gql`
-                query($userId: Int!) {
+                query getUser($userId: Int!) {
                     user(where: { id: $userId }) {
                         picture
                         birthday
@@ -134,7 +134,7 @@ export default {
         },
         ads: {
             query: gql`
-                query($userId: Int!) {
+                query getUserAds($userId: Int!) {
                     ads(
                         orderBy: { updatedAt: desc }
                         where: { authorId: { equals: $userId } }

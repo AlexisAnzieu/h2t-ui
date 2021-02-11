@@ -164,7 +164,7 @@ export default {
     },
     apollo: {
         poems: gql`
-            query {
+            query getPoems {
                 poems(orderBy: { updatedAt: desc }) {
                     title
                     description
@@ -182,7 +182,7 @@ export default {
             this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation(
+                        mutation createPoem(
                             $title: String!
                             $description: String!
                             $author: Int

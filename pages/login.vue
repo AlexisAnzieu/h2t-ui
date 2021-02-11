@@ -228,7 +228,10 @@ export default {
                     this.$apollo
                         .mutate({
                             mutation: gql`
-                                mutation($email: String!, $password: String!) {
+                                mutation sendLoginForm(
+                                    $email: String!
+                                    $password: String!
+                                ) {
                                     login(
                                         loginInput: {
                                             email: $email
@@ -288,7 +291,7 @@ export default {
                     this.$apollo
                         .mutate({
                             mutation: gql`
-                                mutation(
+                                mutation sendSignupForm(
                                     $firstName: String!
                                     $email: String!
                                     $password: String!
@@ -365,7 +368,7 @@ export default {
             return await this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation($token: String!) {
+                        mutation accountActivation($token: String!) {
                             accountActivation(token: $token) {
                                 message
                                 code

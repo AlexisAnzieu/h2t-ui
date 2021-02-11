@@ -252,7 +252,7 @@ export default {
     apollo: {
         ads: {
             query: gql`
-                query {
+                query getAds {
                     ads(orderBy: { updatedAt: desc }) {
                         picture
                         id
@@ -306,7 +306,11 @@ export default {
         async sendPicture() {
             return await this.$apollo.mutate({
                 mutation: gql`
-                    mutation($file: Upload!, $userId: Int!, $type: String) {
+                    mutation UploadAdPicture(
+                        $file: Upload!
+                        $userId: Int!
+                        $type: String
+                    ) {
                         uploadPhoto(file: $file, userId: $userId, type: $type) {
                             message
                             code
@@ -337,7 +341,7 @@ export default {
                     this.$apollo
                         .mutate({
                             mutation: gql`
-                                mutation(
+                                mutation createAd(
                                     $title: String!
                                     $description: String!
                                     $author: Int
@@ -412,7 +416,7 @@ export default {
             return await this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation($userId: Int!, $level: Int) {
+                        mutation addUserLevel($userId: Int!, $level: Int) {
                             updateOneUser(
                                 where: { id: $userId }
                                 data: { level: { set: $level } }

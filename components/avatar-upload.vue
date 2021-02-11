@@ -65,7 +65,11 @@ export default {
             this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation($file: Upload!, $userId: Int!, $type: String) {
+                        mutation addUserProfilePicture(
+                            $file: Upload!
+                            $userId: Int!
+                            $type: String
+                        ) {
                             uploadPhoto(
                                 file: $file
                                 userId: $userId

@@ -221,7 +221,7 @@ export default {
     apollo: {
         user: {
             query: gql`
-                query($userId: Int!) {
+                query getUserProfile($userId: Int!) {
                     user(where: { id: $userId }) {
                         birthday
                         facebookUrl
@@ -250,7 +250,7 @@ export default {
         },
         ads: {
             query: gql`
-                query($userId: Int!) {
+                query getUserAdsProfile($userId: Int!) {
                     ads(
                         orderBy: { updatedAt: desc }
                         where: { authorId: { equals: $userId } }
@@ -298,7 +298,10 @@ export default {
             return await this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation($invitationId: Int!, $sent: String) {
+                        mutation updateInvitation(
+                            $invitationId: Int!
+                            $sent: String
+                        ) {
                             updateOneInvitation(
                                 where: { id: $invitationId }
                                 data: { sent: { set: $sent } }
@@ -344,7 +347,7 @@ export default {
                 level: this.user.level,
             });
         },
-        async updateUser(element) {
+        async updateUser() {
             if (this.user.description && this.$auth.user.level === 3) {
                 this.user.level = 4;
             }
@@ -352,7 +355,7 @@ export default {
             return await this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation(
+                        mutation updateUser(
                             $userId: Int!
                             $facebookUrl: String
                             $firstName: String
