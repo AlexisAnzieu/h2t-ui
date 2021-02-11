@@ -70,8 +70,10 @@
             <div v-if="ad.description != ''">
                 <el-divider></el-divider>
                 <span style="font-size: 30px">“</span>
-                <span style="font-size: 20px; word-break: keep-all">
-                    {{ ad.description }}
+                <span
+                    style="font-size: 20px; word-break: keep-all"
+                    v-html="linkDetection(ad.description)"
+                >
                 </span>
                 <span style="font-size: 30px">”</span>
             </div>
@@ -82,6 +84,7 @@
 <script>
 import { BingProvider } from "leaflet-geosearch";
 import dayjs from "dayjs";
+import Autolinker from "autolinker";
 
 const mapProvider = new BingProvider({
     params: {
@@ -105,6 +108,9 @@ export default {
         };
     },
     methods: {
+        linkDetection: function (data) {
+            return Autolinker.link(data);
+        },
         filterCategory: function (category) {
             this.$router.push({
                 name: "eggs-market-category",
