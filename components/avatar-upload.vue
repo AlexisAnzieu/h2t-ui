@@ -38,7 +38,7 @@ export default {
                 "image/heic",
                 "image/heif",
             ].includes(file.raw.type);
-            const isLight = file.size / 1024 / 1024 < 4;
+            const isLight = file.size / 1024 / 1024 < 5;
 
             if (!isValidFormat) {
                 this.$message.error(
@@ -47,7 +47,7 @@ export default {
                 this.loading = false;
             }
             if (!isLight) {
-                this.$message.error("La photo ne doit pas excéder 4Mo");
+                this.$message.error("La photo ne doit pas excéder 5Mo");
                 this.loading = false;
             }
 
