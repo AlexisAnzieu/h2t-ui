@@ -100,17 +100,12 @@
                 </el-form-item>
                 <el-form-item>
                     Photo
-                    <div
-                        class="ad-pic-uploader"
-                        @click="openCloudinaryWidget()"
-                    >
-                        <img
-                            v-if="form.picture"
-                            :src="form.picture.replace('.heic', '.jpg')"
-                            class="ad-pic"
-                        />
-                        <i v-else class="el-icon-plus ad-pic-uploader-icon"></i>
-                    </div>
+                    <cloudinary-uploader
+                        @pictureUpdate="(picture) => (form.picture = picture)"
+                        :public_id="`H2T/ads/${form.id}/image`"
+                        :picture="form.picture"
+                        type="picture-ad"
+                    />
                 </el-form-item>
                 <el-form-item label="Description" prop="description">
                     <el-input
@@ -263,101 +258,11 @@ export default {
         },
     },
     methods: {
-        async addPicture(file) {
-            const isValidFormat = [
-                "image/jpeg",
-                "image/jpg",
-                "image/png",
-                "image/heic",
-                "image/heif",
-            ].includes(file.raw.type);
-            const isLight = file.size / 1024 / 1024 < 5;
-
-            if (!isValidFormat) {
-                this.$message.error(
-                    "Le format de cette photo n'est pas pris en charge"
-                );
-                this.loading = false;
-            }
-            if (!isLight) {
-                this.$message.error("La photo ne doit pas excéder 5Mo");
-                this.loading = false;
-            }
-
-            if (isValidFormat && isLight) {
-                const readData = (f) =>
-                    new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => resolve(reader.result);
-                        reader.readAsDataURL(f);
-                    });
-
-                /* Read data */
-                const data = await readData(file.raw);
-                this.form.picture = data;
-            }
-        },
         validateCategory: function (rule, value, callback) {
             if (rule.required && this.form.categories.length === 0) {
                 callback(new Error(rule.message));
             }
             callback();
-        },
-        openCloudinaryWidget() {
-            cloudinary
-                .createUploadWidget(
-                    {
-                        cloudName: "dkbuiehgq",
-                        apiKey: process.env.CLOUDINARY_API_KEY,
-                        uploadSignature: this.generateSignature,
-                        maxImageFileSize: 5000000, // 5mb
-                        public_id: `H2T/ads/${this.form.id}/image`,
-                        multiple: false,
-                        maxFiles: 1,
-                        language: "fr",
-                        clientAllowedFormats: [
-                            "png",
-                            "jpg",
-                            "jpeg",
-                            "heic",
-                            "heif",
-                        ],
-                    },
-                    (error, result) => {
-                        //checking if upload was successfully done!
-                        if (!error && result && result.event === "success") {
-                            this.form.picture = result.info.secure_url;
-                        }
-                    }
-                )
-                .open();
-        },
-        async generateSignature(callback, params_to_sign) {
-            return await this.$apollo
-                .query({
-                    query: gql`
-                        query generateSignature(
-                            $timestamp: Int!
-                            $source: String!
-                            $folder: String
-                            $public_id: String
-                        ) {
-                            generateSignature(
-                                timestamp: $timestamp
-                                source: $source
-                                folder: $folder
-                                public_id: $public_id
-                            ) {
-                                code
-                                message
-                            }
-                        }
-                    `,
-                    variables: params_to_sign,
-                })
-                .then((result) => {
-                    return callback(result.data.generateSignature.message);
-                });
         },
         generateUid() {
             return uuidv4();
@@ -509,7 +414,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .body {
     padding: 20px;
 }
@@ -535,32 +440,5 @@ export default {
 
 .nav-market-category:hover {
     background-color: hsl(186, 50%, 96%);
-}
-
-.ad-pic-uploader {
-    width: 178px;
-    height: 178px;
-    border: 2px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-}
-.ad-pic-uploader:hover {
-    border-color: #409eff;
-}
-.ad-pic-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-}
-.ad-pic {
-    width: 178px;
-    height: 178px;
-    display: block;
 }
 </style>

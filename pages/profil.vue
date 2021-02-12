@@ -1,11 +1,19 @@
 <template>
     <el-col :sm="24">
         <el-col
-            style="text-align: center; padding-top: 30px"
+            style="padding-top: 30px; text-align: center"
             :lg="{ span: 21, offset: 1 }"
             :md="24"
         >
-            <avatar-upload @addLevel="addLevel" />
+            <el-row type="flex" style="justify-content: center">
+                <cloudinary-uploader
+                    v-loading="$apollo.loading"
+                    @pictureUpdate="updatePicture"
+                    :public_id="`H2T/profile_picture/${$auth.user.id}`"
+                    :picture="user.picture"
+                ></cloudinary-uploader>
+            </el-row>
+
             <br />
             <el-divider>
                 <h1>{{ this.user.firstName }} {{ this.user.lastName }}</h1>
@@ -165,10 +173,9 @@
                     <template slot-scope="scope">
                         {{
                             scope.row.receiver
-                                ? `${
+                                ? `${formatFirstSubscriptionDate(
                                       scope.row.receiver.createdAt
-                                      | firstSubscriptionDate
-                                  } jour(s)`
+                                  )} jour(s)`
                                 : "en cours"
                         }}
                     </template>
@@ -208,6 +215,7 @@ export default {
             ads: [],
             inviteEmail: null,
             user: {
+                picture: null,
                 facebookUrl: null,
                 email: null,
                 lastName: this.$auth.user.lastName,
@@ -223,6 +231,7 @@ export default {
             query: gql`
                 query getUserProfile($userId: Int!) {
                     user(where: { id: $userId }) {
+                        picture
                         birthday
                         facebookUrl
                         email
@@ -287,12 +296,10 @@ export default {
             );
         },
     },
-    filters: {
-        firstSubscriptionDate: function (date) {
+    methods: {
+        formatFirstSubscriptionDate(date) {
             return dayjs().diff(dayjs(date), "day");
         },
-    },
-    methods: {
         async updateInvitation(invitation, email = null) {
             this.loadingApollo = true;
             return await this.$apollo
@@ -339,15 +346,14 @@ export default {
             const pickedInvitation = this.invitationsToSend.pop();
             await this.updateInvitation(pickedInvitation, email);
         },
-        addLevel(level) {
-            this.user.level += level;
+        async updatePicture(picture) {
+            this.user.picture = picture;
             this.updateUser();
-            this.$auth.setUser({
-                ...this.$auth.user,
-                level: this.user.level,
-            });
         },
         async updateUser() {
+            if (this.user.picture && this.$auth.user.level === 1) {
+                this.user.level = 2;
+            }
             if (this.user.description && this.$auth.user.level === 3) {
                 this.user.level = 4;
             }
@@ -356,6 +362,7 @@ export default {
                 .mutate({
                     mutation: gql`
                         mutation updateUser(
+                            $picture: String
                             $userId: Int!
                             $facebookUrl: String
                             $firstName: String
@@ -367,6 +374,7 @@ export default {
                             updateOneUser(
                                 where: { id: $userId }
                                 data: {
+                                    picture: { set: $picture }
                                     lastName: { set: $lastName }
                                     firstName: { set: $firstName }
                                     facebookUrl: { set: $facebookUrl }
@@ -376,10 +384,12 @@ export default {
                                 }
                             ) {
                                 id
+                                picture
                             }
                         }
                     `,
                     variables: {
+                        picture: this.user.picture,
                         lastName: this.user.lastName,
                         facebookUrl: this.user.facebookUrl,
                         firstName: this.user.firstName,
@@ -393,6 +403,7 @@ export default {
                     this.$auth.setUser({
                         ...this.$auth.user,
                         level: this.user.level,
+                        picture: this.user.picture,
                     });
                     if (resp.errors) {
                         this.$message.error(resp.errors[0].message);
@@ -408,7 +419,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .disabled-link {
     pointer-events: none;
     text-decoration: none;
@@ -423,5 +434,16 @@ export default {
     .user-form {
         padding: 20px;
     }
+}
+
+.ad-pic-uploader {
+    width: 178px;
+    height: 178px;
+    border: 2px dashed #d9d9d9;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
 }
 </style>
