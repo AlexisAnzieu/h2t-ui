@@ -21,6 +21,7 @@ export default {
         content: "/images/facebook-logo-OG.png"
       },
     ],
+    script: [{ src: "https://widget.cloudinary.com/v2.0/global/all.js" }],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   router: {
@@ -108,6 +109,7 @@ export default {
   },
   env: {
     BING_MAP_KEY: process.env.BING_MAP_KEY,
-    API_ENDPOINT: process.env.API_ENDPOINT
+    API_ENDPOINT: process.env.API_ENDPOINT,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY
   }
 };

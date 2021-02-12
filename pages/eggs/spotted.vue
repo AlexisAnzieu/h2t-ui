@@ -238,26 +238,6 @@ export default {
             this.dialogPoemVisible = true;
         },
     },
-    watch: {
-        "form.anonymous": function (anonymous) {
-            if (anonymous === false) {
-                if (!this.$auth.loggedIn) {
-                    this.$message.info({
-                        dangerouslyUseHTMLString: true,
-                        message:
-                            'Oops, <a href="/login">Connecte-toi</a> avant',
-                    });
-                    this.form.anonymous = true;
-                    return;
-                }
-                this.form.author = this.$auth.user.id;
-                this.form.anonymous = false;
-            } else if (anonymous === true) {
-                this.form.author = null;
-                this.form.anonymous = true;
-            }
-        },
-    },
     filters: {
         readableDate: function (pDate) {
             return dayjs(pDate).locale("fr").format("dddd D MMMM YYYY");

@@ -12,8 +12,13 @@
             <el-card @click.native="openAd(ad)">
                 <cld-image
                     class="card-img"
-                    :public-id="ad.picture"
-                    width="80%"
+                    :public-id="
+                        ad.picture
+                            ? ad.picture.replace('.heic', '.jpg')
+                            : 'https://res.cloudinary.com/dkbuiehgq/image/upload/v1613112508/H2T/ads/ads_placeholder.svg'
+                    "
+                    width="100%"
+                    height="100%"
                     crop="fill"
                     fetchFormat="auto"
                     quality="auto"
@@ -99,6 +104,7 @@ export default {
             geoJSONSearch: [47.41322, -1.219482],
             dialogAdVisible: false,
             ad: {
+                id: "",
                 title: "",
                 description: "",
                 author: null,
@@ -151,7 +157,7 @@ export default {
                 const ads = JSON.parse(JSON.stringify(newVal));
                 this.openAd(
                     ads.filter((ad) => {
-                        return +ad.id === +id;
+                        return ad.id === id;
                     })[0]
                 );
             }

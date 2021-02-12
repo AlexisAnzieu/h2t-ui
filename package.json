@@ -27,6 +27,7 @@
     "nuxt": "^2.14.7",
     "nuxt-leaflet": "0.0.19",
     "prettier": "^2.2.1",
+    "uuid": "^8.3.2",
     "vue": "^2.6.12",
     "vue-server-renderer": "^2.6.12",
     "vue-template-compiler": "^2.6.12",

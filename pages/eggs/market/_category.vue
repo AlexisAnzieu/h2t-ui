@@ -100,22 +100,17 @@
                 </el-form-item>
                 <el-form-item>
                     Photo
-                    <el-upload
-                        action="#"
-                        ref="picturesUpload"
+                    <div
                         class="ad-pic-uploader"
-                        :show-file-list="false"
-                        :auto-upload="false"
-                        :on-change="addPicture"
-                        accept=".jpeg,.jpg,.png,image/jpeg,image/png,.heic,image/heif,image/heic,.heif"
+                        @click="openCloudinaryWidget()"
                     >
                         <img
                             v-if="form.picture"
-                            :src="form.picture"
+                            :src="form.picture.replace('.heic', '.jpg')"
                             class="ad-pic"
                         />
                         <i v-else class="el-icon-plus ad-pic-uploader-icon"></i>
-                    </el-upload>
+                    </div>
                 </el-form-item>
                 <el-form-item label="Description" prop="description">
                     <el-input
@@ -173,6 +168,7 @@
 <script>
 import "dayjs/locale/fr";
 import gql from "graphql-tag";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
     head() {
@@ -204,20 +200,12 @@ export default {
                 { value: "VETEMENT" },
             ].sort((a, b) => (a.value > b.value ? 1 : -1)),
             form: {
+                id: this.generateUid(),
                 title: "",
                 description: "",
                 author: this.$auth.loggedIn
                     ? this.$store.state.auth.user.id
                     : null,
-                zipCode: "",
-                categories: "",
-                picture: "",
-            },
-            ad: {
-                id: "",
-                title: "",
-                description: "",
-                author: null,
                 zipCode: "",
                 categories: "",
                 picture: "",
@@ -309,45 +297,81 @@ export default {
                 this.form.picture = data;
             }
         },
-        async sendPicture() {
-            return await this.$apollo.mutate({
-                mutation: gql`
-                    mutation UploadAdPicture(
-                        $file: Upload!
-                        $userId: Int!
-                        $type: String
-                    ) {
-                        uploadPhoto(file: $file, userId: $userId, type: $type) {
-                            message
-                            code
-                        }
-                    }
-                `,
-                variables: {
-                    file: this.form.picture,
-                    userId: this.$auth.user.id,
-                    type: "ad",
-                },
-            });
-        },
         validateCategory: function (rule, value, callback) {
             if (rule.required && this.form.categories.length === 0) {
                 callback(new Error(rule.message));
             }
             callback();
         },
+        openCloudinaryWidget() {
+            cloudinary
+                .createUploadWidget(
+                    {
+                        cloudName: "dkbuiehgq",
+                        apiKey: process.env.CLOUDINARY_API_KEY,
+                        uploadSignature: this.generateSignature,
+                        maxImageFileSize: 5000000, // 5mb
+                        public_id: `H2T/ads/${this.form.id}/image`,
+                        multiple: false,
+                        maxFiles: 1,
+                        language: "fr",
+                        clientAllowedFormats: [
+                            "png",
+                            "jpg",
+                            "jpeg",
+                            "heic",
+                            "heif",
+                        ],
+                    },
+                    (error, result) => {
+                        //checking if upload was successfully done!
+                        if (!error && result && result.event === "success") {
+                            this.form.picture = result.info.secure_url;
+                        }
+                    }
+                )
+                .open();
+        },
+        async generateSignature(callback, params_to_sign) {
+            return await this.$apollo
+                .query({
+                    query: gql`
+                        query generateSignature(
+                            $timestamp: Int!
+                            $source: String!
+                            $folder: String
+                            $public_id: String
+                        ) {
+                            generateSignature(
+                                timestamp: $timestamp
+                                source: $source
+                                folder: $folder
+                                public_id: $public_id
+                            ) {
+                                code
+                                message
+                            }
+                        }
+                    `,
+                    variables: params_to_sign,
+                })
+                .then((result) => {
+                    return callback(result.data.generateSignature.message);
+                });
+        },
+        generateUid() {
+            return uuidv4();
+        },
         async createAd(form) {
             return this.$refs[form].validate(async (valid) => {
                 if (valid) {
                     this.sendingAd = true;
 
-                    const urlPic = (await this.sendPicture()).data.uploadPhoto
-                        .message;
-
                     this.$apollo
                         .mutate({
                             mutation: gql`
                                 mutation createAd(
+                                    $id: String!
                                     $title: String!
                                     $description: String!
                                     $author: Int
@@ -357,6 +381,7 @@ export default {
                                 ) {
                                     createOneAd(
                                         data: {
+                                            id: $id
                                             title: $title
                                             description: $description
                                             author: { connect: { id: $author } }
@@ -382,7 +407,7 @@ export default {
                                     }
                                 }
                             `,
-                            variables: { ...this.form, picture: urlPic },
+                            variables: { ...this.form },
                         })
                         .then((resp) => {
                             if (this.$auth.user.level === 2) {
@@ -393,7 +418,7 @@ export default {
                             this.dialogFormVisible = false;
                             this.$refs[form].resetFields();
                             this.form.picture = "";
-                            this.$refs.picturesUpload.clearFiles();
+                            this.form.id = this.generateUid();
                             this.sendingAd = false;
                         })
                         .catch((error) => {
@@ -406,17 +431,6 @@ export default {
                     return false;
                 }
             });
-        },
-        openAd: async function (ad) {
-            this.ad = ad;
-            this.dialogAdVisible = true;
-            const results = await mapProvider.search({
-                query: `Montreal ${ad.zipCode}`,
-            });
-            this.geoJSONSearch = results[0].raw.point.coordinates;
-        },
-        filterTag: function (value, row) {
-            return row.categories.indexOf(value) >= 0;
         },
         async addUserLevel(level) {
             return await this.$apollo
@@ -450,7 +464,7 @@ export default {
                         this.$message.success(
                             `Tu as gagné une portée (${
                                 this.$auth.user.level - level
-                            } 
+                            }
               ➡️ ${this.$auth.user.level} ) !`
                         );
                     }
@@ -523,14 +537,17 @@ export default {
     background-color: hsl(186, 50%, 96%);
 }
 
-.ad-pic-uploader .el-upload {
+.ad-pic-uploader {
+    width: 178px;
+    height: 178px;
     border: 2px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    text-align: center;
 }
-.ad-pic-uploader .el-upload:hover {
+.ad-pic-uploader:hover {
     border-color: #409eff;
 }
 .ad-pic-uploader-icon {
