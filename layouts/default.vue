@@ -75,7 +75,7 @@
                         :span="$device.isMobile ? 15 : 19"
                     >
                         <h2 v-if="$nuxt.$route.path.startsWith(`/eggs/market`)">
-                            Marché d'annonces gratuites
+                            Locations et services gratuits
                         </h2>
                     </el-col>
                     <el-col :span="2">
