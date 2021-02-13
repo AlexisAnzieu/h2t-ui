@@ -1,7 +1,7 @@
 <template>
     <el-col style="padding: 20px" :lg="{ span: 12, offset: 6 }" :md="24">
         <el-tabs value="login" v-model="activeTab">
-            <el-tab-pane label="Déja inscrit?" name="login">
+            <el-tab-pane label="Déja inscrit" name="login">
                 <el-form
                     @keyup.enter.native="sendLoginForm('loginForm')"
                     :model="loginForm"
@@ -54,6 +54,7 @@
                     </el-form-item>
                     <el-form-item>
                         <el-button
+                            type="primary"
                             @click="sendLoginForm('loginForm')"
                             v-loading.fullscreen.lock="fullscreenLoading"
                         >
@@ -180,7 +181,10 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button @click="sendSignupForm('signupForm')">
+                        <el-button
+                            type="primary"
+                            @click="sendSignupForm('signupForm')"
+                        >
                             S'inscrire à H2T
                         </el-button>
                     </el-form-item>
