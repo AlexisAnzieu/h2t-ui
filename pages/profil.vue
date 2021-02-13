@@ -229,7 +229,7 @@ export default {
     apollo: {
         user: {
             query: gql`
-                query getUserProfile($userId: Int!) {
+                query getUserProfile($userId: String!) {
                     user(where: { id: $userId }) {
                         picture
                         birthday
@@ -259,7 +259,7 @@ export default {
         },
         ads: {
             query: gql`
-                query getUserAdsProfile($userId: Int!) {
+                query getUserAdsProfile($userId: String!) {
                     ads(
                         orderBy: { updatedAt: desc }
                         where: { authorId: { equals: $userId } }
@@ -306,7 +306,7 @@ export default {
                 .mutate({
                     mutation: gql`
                         mutation updateInvitation(
-                            $invitationId: Int!
+                            $invitationId: String!
                             $sent: String
                         ) {
                             updateOneInvitation(
@@ -363,7 +363,7 @@ export default {
                     mutation: gql`
                         mutation updateUser(
                             $picture: String
-                            $userId: Int!
+                            $userId: String!
                             $facebookUrl: String
                             $firstName: String
                             $lastName: String

@@ -279,7 +279,7 @@ export default {
                                     $id: String!
                                     $title: String!
                                     $description: String!
-                                    $author: Int
+                                    $author: String
                                     $zipCode: String!
                                     $categories: AdCategory
                                     $picture: String
@@ -341,7 +341,7 @@ export default {
             return await this.$apollo
                 .mutate({
                     mutation: gql`
-                        mutation addUserLevel($userId: Int!, $level: Int) {
+                        mutation addUserLevel($userId: String!, $level: Int) {
                             updateOneUser(
                                 where: { id: $userId }
                                 data: { level: { set: $level } }
