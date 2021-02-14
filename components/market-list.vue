@@ -25,7 +25,7 @@
                 >
                 </cld-image>
 
-                <div class="card-desc">
+                <div class="card-desc" style="word-break: keep-all">
                     <h3>{{ ad.title | truncate }}</h3>
                     {{ ad.description }}
                 </div>

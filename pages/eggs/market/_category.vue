@@ -5,7 +5,7 @@
                 <el-button
                     style="width: 100%"
                     type="primary"
-                    @click="dialogFormVisible = true"
+                    @click="dialogCategoryFormVisible = true"
                     :disabled="error === null ? false : true"
                     >Déposer une annonce</el-button
                 >
@@ -76,7 +76,7 @@
 
         <el-dialog
             :fullscreen="$device.isMobile"
-            title="Déposer une annonce"
+            :title="`Déposer une annonce dans ${form.categories}`"
             :visible.sync="dialogFormVisible"
         >
             <span style="word-break: keep-all">
@@ -93,7 +93,16 @@
                 v-loading="sendingAd"
             >
                 <el-form-item label="Titre" prop="title">
+                    <el-autocomplete
+                        style="display: block"
+                        v-if="form.categories == 'BOARDGAME'"
+                        v-model="form.title"
+                        :fetch-suggestions="querySearchAsync"
+                        placeholder="Catan"
+                        @select="handleSelect"
+                    ></el-autocomplete>
                     <el-input
+                        v-else
                         placeholder="Appareil à raclette pour 6 personnes"
                         v-model="form.title"
                     ></el-input>
@@ -125,8 +134,30 @@
                         ></el-input>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Catégories" prop="categories">
-                    <el-col :span="12">
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false"
+                    >Annuler</el-button
+                >
+                <el-button
+                    type="primary"
+                    @click="createAd('form')"
+                    :disabled="sendingAd"
+                    >Mettre ce prêt à disposition</el-button
+                >
+            </span>
+        </el-dialog>
+
+        <el-dialog
+            :fullscreen="$device.isMobile"
+            title="Dans quelle catégorie places-tu ton annonce?"
+            :visible.sync="dialogCategoryFormVisible"
+            width="40%"
+            center
+        >
+            <el-form :model="form">
+                <el-form-item label="Catégories">
+                    <el-col :span="24">
                         <el-select
                             v-model="form.categories"
                             placeholder="Sélectionner"
@@ -142,20 +173,18 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false"
+                <el-button @click="dialogCategoryFormVisible = false"
                     >Annuler</el-button
                 >
                 <el-button
                     type="primary"
-                    @click="createAd('form')"
-                    :disabled="sendingAd"
-                    >Mettre ce prêt à disposition</el-button
+                    @click="
+                        dialogFormVisible = true;
+                        dialogCategoryFormVisible = false;
+                    "
+                    >Confirmer la catégorie</el-button
                 >
             </span>
-        </el-dialog>
-
-        <el-dialog :visible.sync="dialogPreviewPicVisible">
-            <img width="100%" :src="dialogPreviewImageUrl" alt="" />
         </el-dialog>
     </el-col>
 </template>
@@ -164,6 +193,7 @@
 import "dayjs/locale/fr";
 import gql from "graphql-tag";
 import { v4 as uuidv4 } from "uuid";
+import parser from "fast-xml-parser";
 
 export default {
     head() {
@@ -174,14 +204,13 @@ export default {
     auth: true,
     data() {
         return {
-            dialogPreviewImageUrl: "",
-            dialogPreviewPicVisible: false,
             search: null,
             geoJSONSearch: [47.41322, -1.219482],
             error: null,
             ads: [],
             sendingAd: false,
             lockSubmit: false,
+            dialogCategoryFormVisible: false,
             dialogAdVisible: false,
             dialogFormVisible: false,
             categories: [
@@ -209,9 +238,9 @@ export default {
                 title: [
                     {
                         required: true,
-                        min: 5,
-                        max: 50,
-                        message: "Le titre doit faire entre 5 et 50 caractères",
+                        min: 3,
+                        max: 80,
+                        message: "Le titre doit faire entre 3 et 80 caractères",
                     },
                 ],
                 zipCode: [
@@ -336,6 +365,53 @@ export default {
                     return false;
                 }
             });
+        },
+        async querySearchAsync(queryString, cb) {
+            if (queryString.length <= 2) {
+                cb([]);
+                return;
+            }
+
+            // space need to be replaced by + https://boardgamegeek.com/wiki/page/BGG_XML_API2#toc3
+            const sanitizedQuery = `https://api.geekdo.com/xmlapi2/search?query=${queryString.replace(
+                / /g,
+                "+"
+            )}&type=boardgame`;
+            const response = await (await fetch(sanitizedQuery)).text();
+            var jsonObj = parser.parse(response, {
+                ignoreAttributes: false,
+            });
+
+            if (!jsonObj?.items?.item) {
+                cb([
+                    {
+                        value: "Aucun jeu trouvé, rentre le manuellement",
+                        disabled: true,
+                    },
+                ]);
+                return;
+            }
+
+            const arrayResult = jsonObj.items.item.length
+                ? jsonObj.items.item
+                : [jsonObj.items.item];
+
+            const printedResult = arrayResult.slice(0, 10).map((item) => {
+                console.log(item);
+                return { value: item.name["@_value"], id: item["@_id"] };
+            });
+            cb(printedResult);
+        },
+        async handleSelect(value) {
+            const response = await (
+                await fetch(
+                    `https://api.geekdo.com/xmlapi2/thing?id=${value.id}&stats=1`
+                )
+            ).text();
+            var parsedResponse = parser.parse(response, {
+                ignoreAttributes: false,
+            });
+            this.form.picture = parsedResponse.items.item.image;
         },
         async addUserLevel(level) {
             return await this.$apollo
