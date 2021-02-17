@@ -9,7 +9,10 @@
             v-for="ad in ads"
             :key="ad.id"
         >
-            <el-card @click.native="openAd(ad)">
+            <el-card
+                @click.native="openAd(ad)"
+                :class="ad.available ? 'available' : 'unavailable'"
+            >
                 <cld-image
                     class="card-img"
                     :public-id="
@@ -27,6 +30,66 @@
 
                 <div class="card-desc" style="word-break: keep-all">
                     <h3>{{ ad.title | truncate }}</h3>
+                    <div v-if="ad.categories === 'BOARDGAME'">
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="`Jouabilité ${ad.additionalData.rating}/5`"
+                            placement="left"
+                        >
+                            <el-rate
+                                v-if="ad.additionalData"
+                                disabled
+                                :max="5"
+                                v-model="ad.additionalData.rating"
+                            ></el-rate>
+                        </el-tooltip>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="`Complexité ${ad.additionalData.difficulty}/5`"
+                            placement="left"
+                        >
+                            <el-rate
+                                :icon-classes="['el-icon-cpu']"
+                                disabled-void-icon-class="el-icon-cpu"
+                                v-if="ad.additionalData"
+                                disabled
+                                :max="5"
+                                v-model="ad.additionalData.difficulty"
+                            ></el-rate>
+                        </el-tooltip>
+
+                        <i class="el-icon-user"></i>
+                        <span
+                            v-if="
+                                ad.additionalData.minPlayers &&
+                                ad.additionalData.maxPlayers
+                            "
+                        >
+                            {{
+                                ad.additionalData
+                                    ? `${ad.additionalData.minPlayers} - ${ad.additionalData.maxPlayers}`
+                                    : "pas de données"
+                            }}
+                        </span>
+                        <span v-else>Aucune donnée</span>
+                        <br />
+                        <i class="el-icon-timer"></i>
+                        <span
+                            v-if="
+                                ad.additionalData.minPlayers &&
+                                ad.additionalData.maxPlayers
+                            "
+                        >
+                            {{
+                                ad.additionalData
+                                    ? `${ad.additionalData.playingTime} minutes`
+                                    : "pas de données"
+                            }}
+                        </span>
+                        <span v-else>Aucune donnée</span>
+                    </div>
                     {{ ad.description }}
                 </div>
             </el-card>
@@ -36,9 +99,82 @@
             :before-close="handleClose"
             v-if="ad.author"
             :fullscreen="$device.isMobile"
-            :title="ad.title"
+            :title="ad.available ? ad.title : ad.title + ' (indisponible)'"
             :visible.sync="dialogAdVisible"
         >
+            <div v-if="ad.categories === 'BOARDGAME'">
+                <el-row :span="24">
+                    <el-col :sm="12" :md="6">
+                        Jouabilité:
+                        <el-rate
+                            v-if="ad.additionalData"
+                            disabled
+                            :max="5"
+                            v-model="ad.additionalData.rating"
+                        ></el-rate
+                        ><br
+                    /></el-col>
+                    <el-col :sm="12" :md="6">
+                        Complexité:
+                        <el-rate
+                            :icon-classes="['el-icon-cpu']"
+                            disabled-void-icon-class="el-icon-cpu"
+                            v-if="ad.additionalData"
+                            disabled
+                            :max="5"
+                            v-model="ad.additionalData.difficulty"
+                        ></el-rate
+                        ><br
+                    /></el-col>
+                    <el-col :sm="12" :md="6">
+                        <i class="el-icon-user"></i>
+                        <span
+                            v-if="
+                                ad.additionalData.minPlayers &&
+                                ad.additionalData.maxPlayers
+                            "
+                        >
+                            {{
+                                ad.additionalData
+                                    ? `${ad.additionalData.minPlayers} - ${ad.additionalData.maxPlayers} joueurs`
+                                    : "pas de données"
+                            }}
+                        </span>
+                        <span v-else>Aucune donnée</span></el-col
+                    >
+                    <el-col :sm="12" :md="6">
+                        <i class="el-icon-timer"></i>
+                        <span
+                            v-if="
+                                ad.additionalData.minPlayers &&
+                                ad.additionalData.maxPlayers
+                            "
+                        >
+                            {{
+                                ad.additionalData
+                                    ? `${ad.additionalData.playingTime} minutes`
+                                    : "pas de données"
+                            }}
+                        </span>
+                        <span v-else>Aucune donnée</span></el-col
+                    >
+                </el-row>
+
+                <br />
+            </div>
+            <div v-if="ad.author.id === $auth.user.id">
+                <el-switch
+                    @change="updateAdAvailability(ad.id, ad.available)"
+                    v-model="ad.available"
+                    active-text="Rendre disponible"
+                    inactive-text="Rendre indisponible"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                >
+                    >
+                </el-switch>
+                <br /><br />
+            </div>
             proposé le {{ ad.createdAt | readableDate }} par
             <pop-profil :user="ad.author"></pop-profil>
             <br />
@@ -62,7 +198,7 @@
                     facebook</el-button
                 ></a
             >
-            <div id="map-wrap" style="height: 50vh; margin-top: 20px">
+            <div id="map-wrap" style="height: 20vh; margin-top: 20px">
                 <client-only>
                     <l-map :zoom="15" :center="this.geoJSONSearch">
                         <l-tile-layer
@@ -90,6 +226,7 @@
 import { BingProvider } from "leaflet-geosearch";
 import dayjs from "dayjs";
 import Autolinker from "autolinker";
+import gql from "graphql-tag";
 
 const mapProvider = new BingProvider({
     params: {
@@ -110,10 +247,47 @@ export default {
                 author: null,
                 zipCode: "",
                 categories: "",
+                additionalData: {},
+                available: null,
             },
         };
     },
     methods: {
+        async updateAdAvailability(id, available) {
+            this.$message.info("Annonce en cours de mise à jour");
+            return await this.$apollo
+                .mutate({
+                    mutation: gql`
+                        mutation updateAd($id: String!, $available: Boolean) {
+                            updateOneAd(
+                                where: { id: $id }
+                                data: { available: { set: $available } }
+                            ) {
+                                id
+                                available
+                            }
+                        }
+                    `,
+                    variables: {
+                        id,
+                        available,
+                    },
+                })
+                .then((resp) => {
+                    if (resp.errors) {
+                        this.$message.error(resp.errors[0].message);
+                    } else {
+                        const modifiedAd = this.ads.find(
+                            (ad) => ad.id === resp.data.updateOneAd.id
+                        );
+                        modifiedAd.available = resp.data.updateOneAd.available;
+                        this.$message.success("Annonce mise à jour");
+                    }
+                })
+                .catch((error) => {
+                    this.$message.error(error);
+                });
+        },
         linkDetection: function (data) {
             return Autolinker.link(data);
         },
@@ -187,6 +361,14 @@ export default {
     height: 20vh;
     transition: 0.3s;
     text-align: center;
+}
+
+.el-card.is-always-shadow.unavailable {
+    box-shadow: 0 2px 12px 0 rgb(255 0 0 / 40%);
+}
+
+.el-card.is-always-shadow.available {
+    box-shadow: 0 2px 12px 0 rgb(0 255 0 / 40%);
 }
 
 @media screen and (max-width: 600px) {

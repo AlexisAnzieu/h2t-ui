@@ -128,7 +128,7 @@ export default {
             `,
             variables() {
                 return {
-                    userId: parseInt(this.$route.params.id),
+                    userId: this.$route.params.id,
                 };
             },
         },
@@ -154,7 +154,7 @@ export default {
             `,
             variables() {
                 return {
-                    userId: parseInt(this.$route.params.id),
+                    userId: this.$route.params.id,
                 };
             },
         },

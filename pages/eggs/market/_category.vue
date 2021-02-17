@@ -134,6 +134,17 @@
                         ></el-input>
                     </el-col>
                 </el-form-item>
+                <el-form-item
+                    label="Cette annonce est-elle disponible dès sa publication?"
+                    prop="available"
+                >
+                    <el-switch
+                        v-model="form.available"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        >>
+                    </el-switch>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false"
@@ -194,6 +205,7 @@ import "dayjs/locale/fr";
 import gql from "graphql-tag";
 import { v4 as uuidv4 } from "uuid";
 import parser from "fast-xml-parser";
+import _ from "lodash";
 
 export default {
     head() {
@@ -233,6 +245,8 @@ export default {
                 zipCode: "",
                 categories: "",
                 picture: "",
+                additionalData: {},
+                available: true,
             },
             rules: {
                 title: [
@@ -281,6 +295,8 @@ export default {
                         }
                         zipCode
                         categories
+                        additionalData
+                        available
                     }
                 }
             `,
@@ -312,6 +328,8 @@ export default {
                                     $zipCode: String!
                                     $categories: AdCategory
                                     $picture: String
+                                    $additionalData: Json
+                                    $available: Boolean
                                 ) {
                                     createOneAd(
                                         data: {
@@ -322,6 +340,8 @@ export default {
                                             zipCode: $zipCode
                                             categories: $categories
                                             picture: $picture
+                                            additionalData: $additionalData
+                                            available: $available
                                         }
                                     ) {
                                         title
@@ -338,6 +358,8 @@ export default {
                                         }
                                         zipCode
                                         categories
+                                        additionalData
+                                        available
                                     }
                                 }
                             `,
@@ -352,6 +374,7 @@ export default {
                             this.dialogFormVisible = false;
                             this.$refs[form].resetFields();
                             this.form.picture = "";
+                            this.form.additionalData = {};
                             this.form.id = this.generateUid();
                             this.sendingAd = false;
                         })
@@ -411,7 +434,26 @@ export default {
             var parsedResponse = parser.parse(response, {
                 ignoreAttributes: false,
             });
+            if (!parsedResponse.items.item) return;
             this.form.picture = parsedResponse.items.item.image;
+            this.form.additionalData = {
+                rating:
+                    _.ceil(
+                        parsedResponse.items.item.statistics.ratings.average[
+                            "@_value"
+                        ],
+                        2
+                    ) / 2,
+                difficulty:
+                    _.ceil(
+                        parsedResponse.items.item.statistics.ratings
+                            .averageweight["@_value"],
+                        2
+                    ) / 2,
+                minPlayers: parsedResponse.items.item.minplayers?.["@_value"],
+                maxPlayers: parsedResponse.items.item.maxplayers?.["@_value"],
+                playingTime: parsedResponse.items.item.playingtime?.["@_value"],
+            };
         },
         async addUserLevel(level) {
             return await this.$apollo
