@@ -4,29 +4,32 @@
             <el-card shadow="hover">
                 <el-row>
                     <el-col :lg="3" :sm="5">
-                        <nuxt-link :to="`/user/${user.id}`">
-                            <el-image
-                                style="
-                                border-radius: 50%
-                                    width: 100%;
-                                    height: 100%;
-                                    display: block;
-                                "
-                                :src="
-                                    user.picture ||
-                                    'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
-                                "
-                                fit="cover"
-                            ></el-image>
-                        </nuxt-link>
+                        <el-image
+                            style="width: 100%; height: 100%; display: block"
+                            :src="
+                                user.picture ||
+                                'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                            "
+                            fit="cover"
+                        ></el-image>
                     </el-col>
                     <el-col :lg="13" :sm="10" style="padding: 10px">
                         <h2>{{ user.firstName }} {{ user.lastName }}</h2>
                         <h3>{{ user.email }}</h3>
-                        Inscrit il y a
-                        {{ user.createdAt | firstSubscriptionDate }} jours
+                        <br />
+                        Invité.e il y a
+                        {{ user.createdAt | firstSubscriptionDate }} jours par
+
+                        <pop-profil
+                            v-if="user.invitedBy"
+                            :user="user.invitedBy"
+                        ></pop-profil>
+                        <span v-else>lui-même</span>
                         <br />
                         <br />
+                        <nuxt-link :to="`/user/${user.id}`">
+                            <el-button size="small">Profil</el-button>
+                        </nuxt-link>
                         <el-badge :value="user.ads.length" type="primary">
                             <nuxt-link :to="`/eggs/market/${user.id}`">
                                 <el-button size="small">Annonces</el-button>
@@ -93,6 +96,12 @@ export default {
                         facebookUrl
                         ads {
                             id
+                        }
+                        invitedBy {
+                            firstName
+                            id
+                            picture
+                            createdAt
                         }
                     }
                 }

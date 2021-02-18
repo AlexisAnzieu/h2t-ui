@@ -1,5 +1,5 @@
 <template>
-    <el-col style="padding-top: 30px" :md="{ span: 22, offset: 1 }">
+    <el-col style="padding-top: 30px; padding-left: 10px" :md="{ span: 22 }">
         <el-row>
             <el-col :sm="24" :md="3">
                 <el-button
@@ -150,7 +150,7 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item
-                    label="Cette annonce est-elle disponible dès sa publication?"
+                    label="Disponible dès publication?"
                     prop="available"
                 >
                     <el-switch
@@ -435,7 +435,6 @@ export default {
                 : [jsonObj.items.item];
 
             const printedResult = arrayResult.slice(0, 10).map((item) => {
-                console.log(item);
                 return { value: item.name["@_value"], id: item["@_id"] };
             });
             cb(printedResult);
@@ -499,6 +498,7 @@ export default {
                             ...this.$auth.user,
                             level: this.$auth.user.level + level,
                         });
+                        this.$message.close();
                         this.$message.success(
                             `Tu as gagné une portée (${
                                 this.$auth.user.level - level
@@ -546,6 +546,14 @@ export default {
         },
     },
     mounted() {
+        if (this.$auth.user.level === 2) {
+            this.$message.warning({
+                message:
+                    "N'oublie pas de déposer une annonce avant d'emprunter!",
+                showClose: false,
+                duration: 0,
+            });
+        }
         this.search = this.$route.query.q;
     },
 };

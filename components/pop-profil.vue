@@ -1,10 +1,14 @@
 <template>
-    <el-popover placement="top-start" width="200" trigger="hover">
-        <div style="text-align: center">
-            <h3>{{ user.firstName }}</h3>
+    <el-popover placement="top" width="200" trigger="hover">
+        <div>
+            <h3 style="text-align: center">{{ user.firstName }}</h3>
             Inscrit il y a {{ user.createdAt | firstSubscriptionDate }} jours
             <el-image
-                style="width: 150px !important; height: 150px !important"
+                style="
+                    width: 150px !important;
+                    height: 150px !important;
+                    border-radius: 50%;
+                "
                 :src="user.picture"
             ></el-image>
         </div>
@@ -30,3 +34,10 @@ export default {
     },
 };
 </script>
+
+<style>
+.el-popover.el-popper {
+    border-radius: 50%;
+    text-align: center;
+}
+</style>
