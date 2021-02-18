@@ -70,10 +70,10 @@
                             {{
                                 ad.additionalData
                                     ? `${ad.additionalData.minPlayers} - ${ad.additionalData.maxPlayers}`
-                                    : "pas de données"
+                                    : "no data"
                             }}
                         </span>
-                        <span v-else>Aucune donnée</span>
+                        <span v-else>No data</span>
                         <br />
                         <i class="el-icon-timer"></i>
                         <span
@@ -85,10 +85,10 @@
                             {{
                                 ad.additionalData
                                     ? `${ad.additionalData.playingTime} minutes`
-                                    : "pas de données"
+                                    : "no data"
                             }}
                         </span>
-                        <span v-else>Aucune donnée</span>
+                        <span v-else>No data</span>
                     </div>
                     {{ ad.description }}
                 </div>
@@ -106,24 +106,37 @@
                 <el-row :span="24">
                     <el-col :sm="12" :md="6">
                         Jouabilité:
-                        <el-rate
-                            v-if="ad.additionalData"
-                            disabled
-                            :max="5"
-                            v-model="ad.additionalData.rating"
-                        ></el-rate
-                        ><br
-                    /></el-col>
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="`Jouabilité ${ad.additionalData.rating}/5`"
+                            placement="left"
+                        >
+                            <el-rate
+                                v-if="ad.additionalData"
+                                disabled
+                                :max="5"
+                                v-model="ad.additionalData.rating"
+                            ></el-rate>
+                        </el-tooltip>
+                        <br />
+                    </el-col>
                     <el-col :sm="12" :md="6">
                         Complexité:
-                        <el-rate
-                            :icon-classes="['el-icon-cpu']"
-                            disabled-void-icon-class="el-icon-cpu"
-                            v-if="ad.additionalData"
-                            disabled
-                            :max="5"
-                            v-model="ad.additionalData.difficulty"
-                        ></el-rate
+                        <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="`Complexité ${ad.additionalData.difficulty}/5`"
+                            placement="left"
+                        >
+                            <el-rate
+                                :icon-classes="['el-icon-cpu']"
+                                disabled-void-icon-class="el-icon-cpu"
+                                v-if="ad.additionalData"
+                                disabled
+                                :max="5"
+                                v-model="ad.additionalData.difficulty"
+                            ></el-rate></el-tooltip
                         ><br
                     /></el-col>
                     <el-col :sm="12" :md="6">
@@ -175,15 +188,16 @@
                 </el-switch>
                 <br /><br />
             </div>
-            proposé le {{ ad.createdAt | readableDate }} par
             <pop-profil :user="ad.author"></pop-profil>
+            <br />
             <br />
             <a
                 rel="noopener noreferrer"
                 target="_blank"
                 :href="`mailto:${ad.author.email}?subject=Prêt sur H2T - ${ad.title}`"
                 ><el-button type="primary"
-                    ><em class="el-icon-message"></em> lui envoyer un email
+                    ><em class="el-icon-message"></em> envoyer un email à
+                    {{ ad.author.firstName }}
                 </el-button></a
             >
             <br />
@@ -194,8 +208,8 @@
                 v-if="ad.author.facebookUrl"
                 :href="ad.author.facebookUrl | parseFbMessenger"
                 ><el-button type="primary"
-                    ><em class="el-icon-chat-dot-round"></em> le contacter par
-                    facebook</el-button
+                    ><em class="el-icon-chat-dot-round"></em> contacter
+                    {{ ad.author.firstName }} par facebook</el-button
                 ></a
             >
             <div id="map-wrap" style="height: 20vh; margin-top: 20px">
@@ -254,7 +268,6 @@ export default {
     },
     methods: {
         async updateAdAvailability(id, available) {
-            this.$message.info("Annonce en cours de mise à jour");
             return await this.$apollo
                 .mutate({
                     mutation: gql`
@@ -373,10 +386,10 @@ export default {
 
 @media screen and (max-width: 600px) {
     .card-img {
-        height: 15vh;
+        height: 13vh;
     }
     .card-desc {
-        height: 9vh;
+        height: 15vh;
     }
 }
 

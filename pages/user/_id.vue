@@ -161,10 +161,7 @@ export default {
     },
     filters: {
         parseFbMessenger: function (data) {
-            return `https://www.facebook.com/messages/t/${data
-                .split("/")
-                .filter(Boolean)
-                .pop()}`;
+            return `https://m.me/${data.split("/").filter(Boolean).pop()}`;
         },
         firstSubscriptionDate: function (date) {
             return dayjs().diff(dayjs(date), "day");

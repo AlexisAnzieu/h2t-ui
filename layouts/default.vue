@@ -50,7 +50,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/v1612507002/H2T/nav/${egg}.jpg')`"
+                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/H2T/nav/${egg}.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -142,7 +142,7 @@ export default {
         eggs: function () {
             const tabs = ["ecologie", "boiler", "h2talk"];
             if (this.$auth.user) {
-                tabs.push("calendar");
+                tabs.push("calendar", "nous");
             }
             if (this.$auth.user?.picture) {
                 tabs.push("market");

@@ -19,6 +19,21 @@
                     <nuxt-link
                         class="nav-market-category"
                         :class="{
+                            active:
+                                $nuxt.$route.path ===
+                                `/eggs/market/${$auth.user.id}`,
+                        }"
+                        :to="{
+                            name: 'eggs-market-category',
+                            params: { category: $auth.user.id },
+                            query: search ? { q: search } : {},
+                        }"
+                    >
+                        Mes annonces
+                    </nuxt-link>
+                    <nuxt-link
+                        class="nav-market-category"
+                        :class="{
                             active: $nuxt.$route.path === '/eggs/market',
                         }"
                         :to="{
@@ -203,7 +218,7 @@
 <script>
 import "dayjs/locale/fr";
 import gql from "graphql-tag";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, validate as validateUuid } from "uuid";
 import parser from "fast-xml-parser";
 import _ from "lodash";
 
@@ -515,7 +530,11 @@ export default {
         filteredAds: function () {
             const category = this.$route.params.category;
             const categoryFilter = (ad) =>
-                category ? ad.categories.toLowerCase() === category : true;
+                category
+                    ? validateUuid(category)
+                        ? ad.author.id === category
+                        : ad.categories.toLowerCase() === category
+                    : true;
             const searchFilter = (ad) =>
                 this.search
                     ? ad.title.toLowerCase().includes(this.search) ||
