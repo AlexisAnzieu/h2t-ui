@@ -321,10 +321,7 @@ export default {
                     if (resp.errors) {
                         this.$message.error(resp.errors[0].message);
                     } else {
-                        const modifiedAd = this.ads.find(
-                            (ad) => ad.id === resp.data.updateOneAd.id
-                        );
-                        modifiedAd.available = resp.data.updateOneAd.available;
+                        this.$emit("refetchAds");
                         this.$message.success("Annonce mise à jour");
                     }
                 })
