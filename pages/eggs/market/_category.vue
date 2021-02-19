@@ -1,7 +1,11 @@
 <template>
     <el-col style="padding-top: 30px; padding-left: 10px" :md="{ span: 22 }">
         <el-row>
-            <el-col :sm="24" :md="3">
+            <el-col
+                :style="$device.isDesktop ? 'position: fixed' : ''"
+                :sm="24"
+                :md="3"
+            >
                 <el-button
                     style="width: 100%"
                     type="primary"
@@ -64,7 +68,7 @@
                 </div>
             </el-col>
 
-            <el-col :sm="24" :md="{ span: 20, offset: 1 }">
+            <el-col :sm="24" :md="{ span: 20, offset: 4 }">
                 <el-alert
                     v-if="$auth.user.level === 2"
                     :closable="false"

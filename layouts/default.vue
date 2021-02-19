@@ -121,7 +121,9 @@
                         </div>
                     </el-col>
                 </el-row>
-                <nuxt />
+                <div style="padding-top: 50px">
+                    <nuxt />
+                </div>
             </el-col>
         </el-row>
     </client-only>
@@ -348,6 +350,7 @@ html {
     background-color: white;
     padding: 5px;
     z-index: 1;
+    position: fixed;
 }
 
 .avatar-nav {
