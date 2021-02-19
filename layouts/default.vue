@@ -353,6 +353,12 @@ html {
     position: fixed;
 }
 
+@media screen and (max-width: 600px) {
+    .navbar {
+        position: inherit;
+    }
+}
+
 .avatar-nav {
     cursor: pointer;
 }
