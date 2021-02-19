@@ -47,7 +47,7 @@
             style="padding: 50px"
         >
             <h3>Description</h3>
-            {{ user.description.resume }}
+            {{ user.description }}
             <br /><br />
             <a
                 rel="noopener noreferrer"
@@ -96,7 +96,7 @@ export default {
                 lastName: null,
                 firstName: null,
                 level: null,
-                description: {},
+                description: null,
                 invitations: [],
             },
         };

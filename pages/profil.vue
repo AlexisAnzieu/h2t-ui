@@ -74,7 +74,7 @@
                         @blur="updateUser"
                         label="Ton profil facebook"
                         placeholder="Décris en quelques lignes ton parcours personnel qui ne soit pas ton parcours professionnel ainsi qu'un de tes accomplissements personnel dans un futur proche."
-                        v-model="user.description.resume"
+                        v-model="user.description"
                     >
                     </el-input>
                 </el-form-item>
@@ -222,7 +222,7 @@ export default {
                 lastName: this.$auth.user.lastName,
                 firstName: this.$auth.user.firstName,
                 level: this.$auth.user.level,
-                description: {},
+                description: null,
                 invitations: [],
             },
         };
@@ -381,7 +381,7 @@ export default {
                             $lastName: String
                             $email: String
                             $level: Int
-                            $description: Json
+                            $description: String
                         ) {
                             updateOneUser(
                                 where: { id: $userId }
@@ -392,7 +392,7 @@ export default {
                                     facebookUrl: { set: $facebookUrl }
                                     email: { set: $email }
                                     level: { set: $level }
-                                    description: $description
+                                    description: { set: $description }
                                 }
                             ) {
                                 id
@@ -408,9 +408,7 @@ export default {
                         email: this.user.email,
                         userId: this.$auth.user.id,
                         level: this.user.level,
-                        description: {
-                            resume: this.user.description.resume,
-                        },
+                        description: this.user.description,
                     },
                 })
                 .then((resp) => {
