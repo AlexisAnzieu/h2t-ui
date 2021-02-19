@@ -110,6 +110,7 @@ export default {
   env: {
     BING_MAP_KEY: process.env.BING_MAP_KEY,
     API_ENDPOINT: process.env.API_ENDPOINT,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    GOOGLE_SEARCH_API_KEY: process.env.GOOGLE_SEARCH_API_KEY
   }
 };

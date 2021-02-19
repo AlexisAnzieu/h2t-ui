@@ -21,6 +21,17 @@ export default {
         openCloudinaryWidget() {
             const opts = {
                 cloudName: "dkbuiehgq",
+                sources: [
+                    "local",
+                    "image_search",
+                    "camera",
+                    "url",
+                    "dropbox",
+                    "facebook",
+                    "instagram",
+                    "google_drive",
+                ],
+                googleApiKey: process.env.GOOGLE_SEARCH_API_KEY,
                 apiKey: process.env.CLOUDINARY_API_KEY,
                 uploadSignature: this.generateSignature,
                 maxImageFileSize: 5000000, // 5mb
