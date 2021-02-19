@@ -30,7 +30,7 @@
 
                 <div class="card-desc" style="word-break: keep-all">
                     <h3>{{ ad.title | truncate }}</h3>
-                    <div v-if="ad.categories === 'BOARDGAME'">
+                    <div v-if="ad.categories === 'JEU'">
                         <el-tooltip
                             class="item"
                             effect="dark"
@@ -102,7 +102,7 @@
             :title="ad.available ? ad.title : ad.title + ' (indisponible)'"
             :visible.sync="dialogAdVisible"
         >
-            <div v-if="ad.categories === 'BOARDGAME'">
+            <div v-if="ad.categories === 'JEU'">
                 <el-row :span="24">
                     <el-col :sm="12" :md="6">
                         Jouabilité:

@@ -120,7 +120,7 @@
                 <el-form-item label="Titre" prop="title">
                     <el-autocomplete
                         style="display: block"
-                        v-if="form.categories == 'BOARDGAME'"
+                        v-if="form.categories == 'JEU'"
                         v-model="form.title"
                         :fetch-suggestions="querySearchAsync"
                         placeholder="Catan"
@@ -255,7 +255,7 @@ export default {
                 { value: "CUISINE" },
                 { value: "ELECTRONIQUE" },
                 { value: "LIVRE" },
-                { value: "BOARDGAME" },
+                { value: "JEU" },
                 { value: "MAISON" },
                 { value: "SERVICE" },
                 { value: "VETEMENT" },
