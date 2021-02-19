@@ -464,6 +464,7 @@ export default {
             if (!parsedResponse.items.item) return;
             this.form.picture = parsedResponse.items.item.image;
             this.form.additionalData = {
+                bggId: value.id,
                 rating:
                     _.ceil(
                         parsedResponse.items.item.statistics.ratings.average[
