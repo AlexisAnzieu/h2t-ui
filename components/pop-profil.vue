@@ -1,8 +1,7 @@
 <template>
-    <el-popover placement="top" width="200" trigger="hover">
+    <el-popover placement="top" width="175" trigger="hover">
         <div>
             <h3 style="text-align: center">{{ user.firstName }}</h3>
-            Inscrit il y a {{ user.createdAt | firstSubscriptionDate }} jours
             <el-image
                 style="
                     width: 150px !important;
@@ -35,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-popover.el-popper {
     border-radius: 50%;
     text-align: center;

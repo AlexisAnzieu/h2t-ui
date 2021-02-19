@@ -65,6 +65,15 @@
             </el-col>
 
             <el-col :sm="24" :md="{ span: 20, offset: 1 }">
+                <el-alert
+                    v-if="$auth.user.level === 2"
+                    :closable="false"
+                    title="N'oublie pas de déposer une annonce"
+                    type="warning"
+                    description="Aide nous à construire ce marché de la location gratuite en mettant à ton tour un objet ou un service à la disposition de tous, merci!"
+                    show-icon
+                >
+                </el-alert>
                 <div
                     v-if="filteredAds.length === 0 && !$apollo.loading"
                     style="text-align: center; padding: 10px"
@@ -83,6 +92,7 @@
                     />
                 </div>
                 <market-list
+                    @refetchAds="refetchAds"
                     v-loading="$apollo.loading"
                     :ads="filteredAds"
                 ></market-list>
@@ -384,7 +394,7 @@ export default {
                             if (this.$auth.user.level === 2) {
                                 this.addUserLevel(1);
                             }
-                            this.ads.unshift(resp.data.createOneAd);
+                            this.refetchAds();
                             this.$message.success("Merci encore! ✨");
                             this.dialogFormVisible = false;
                             this.$refs[form].resetFields();
@@ -403,6 +413,9 @@ export default {
                     return false;
                 }
             });
+        },
+        async refetchAds() {
+            this.$apollo.queries.ads.refetch();
         },
         async querySearchAsync(queryString, cb) {
             if (queryString.length <= 2) {
@@ -546,14 +559,6 @@ export default {
         },
     },
     mounted() {
-        if (this.$auth.user.level === 2) {
-            this.$message.warning({
-                message:
-                    "N'oublie pas de déposer une annonce avant d'emprunter!",
-                showClose: false,
-                duration: 0,
-            });
-        }
         this.search = this.$route.query.q;
     },
 };

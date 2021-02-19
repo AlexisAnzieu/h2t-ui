@@ -74,7 +74,7 @@
                         @blur="updateUser"
                         label="Ton profil facebook"
                         placeholder="Décris en quelques lignes ton parcours personnel qui ne soit pas ton parcours professionnel ainsi qu'un de tes accomplissements personnel dans un futur proche."
-                        v-model="user.description"
+                        v-model="user.description.resume"
                     >
                     </el-input>
                 </el-form-item>
@@ -130,6 +130,7 @@
             </el-form>
         </el-col>
         <el-col
+            v-if="$auth.user.level >= 4"
             v-loading="$apollo.loading || loadingApollo"
             :md="11"
             :sm="24"
@@ -137,13 +138,13 @@
         >
             <h3>Parraine tes connaissances</h3>
             <br />
-            Tu connais certaines personnes susceptible de faire partie de la
+            Tu connais certaines personnes susceptibles de faire partie de la
             communauté? N'hésite pas à les convier ici!
             <br />
             <br />
             <strong>
                 {{ invitationsToSend.length }}
-                invitation(s) restante(s)
+                invitation.s restant.e.s
             </strong>
             <br />
             <br />
@@ -221,7 +222,7 @@ export default {
                 lastName: this.$auth.user.lastName,
                 firstName: this.$auth.user.firstName,
                 level: this.$auth.user.level,
-                description: null,
+                description: {},
                 invitations: [],
             },
         };
@@ -326,16 +327,28 @@ export default {
                 })
                 .then((resp) => {
                     if (resp.errors) {
+                        this.invitationsToSend.push(invitation);
                         this.$message.error(resp.errors[0].message);
                     } else {
                         this.$message.success("Invitations mises à jour");
                     }
-                    this.inviteEmail = null;
                 })
                 .catch((error) => {
-                    this.$message.error(error);
+                    this.invitationsToSend.push(invitation);
+                    if (
+                        error.message.includes(
+                            "Unique constraint failed on the constraint: `sent_unique`"
+                        )
+                    ) {
+                        this.$message.warning(
+                            "Une invitation a déjà été envoyée à cette adresse mail"
+                        );
+                    } else {
+                        this.$message.error(error.message);
+                    }
                 })
                 .finally(() => {
+                    this.inviteEmail = null;
                     this.loadingApollo = false;
                 });
         },
@@ -357,7 +370,6 @@ export default {
             if (this.user.description && this.$auth.user.level === 3) {
                 this.user.level = 4;
             }
-            this.$message.info("Profil en cours de mise à jour");
             return await this.$apollo
                 .mutate({
                     mutation: gql`
@@ -369,7 +381,7 @@ export default {
                             $lastName: String
                             $email: String
                             $level: Int
-                            $description: String
+                            $description: Json
                         ) {
                             updateOneUser(
                                 where: { id: $userId }
@@ -380,7 +392,7 @@ export default {
                                     facebookUrl: { set: $facebookUrl }
                                     email: { set: $email }
                                     level: { set: $level }
-                                    description: { set: $description }
+                                    description: $description
                                 }
                             ) {
                                 id
@@ -396,7 +408,9 @@ export default {
                         email: this.user.email,
                         userId: this.$auth.user.id,
                         level: this.user.level,
-                        description: this.user.description,
+                        description: {
+                            resume: this.user.description.resume,
+                        },
                     },
                 })
                 .then((resp) => {

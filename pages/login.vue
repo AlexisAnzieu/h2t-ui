@@ -1,5 +1,5 @@
 <template>
-    <el-col style="padding: 20px" :lg="{ span: 12, offset: 6 }" :md="24">
+    <el-col style="padding: 20px" :lg="{ span: 6, offset: 8 }" :md="24">
         <el-tabs value="login" v-model="activeTab">
             <el-tab-pane label="Déja inscrit" name="login">
                 <el-form

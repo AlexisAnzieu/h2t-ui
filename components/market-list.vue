@@ -96,8 +96,8 @@
         </el-col>
 
         <el-dialog
-            :before-close="handleClose"
             v-if="ad.author"
+            :before-close="handleClose"
             :fullscreen="$device.isMobile"
             :title="ad.available ? ad.title : ad.title + ' (indisponible)'"
             :visible.sync="dialogAdVisible"
@@ -176,18 +176,48 @@
                 <br />
             </div>
             <div v-if="ad.author.id === $auth.user.id">
+                Merci d'avoir déposé cette annonce!
+                <br />
+                <br />
                 <el-switch
                     @change="updateAdAvailability(ad.id, ad.available)"
                     v-model="ad.available"
-                    active-text="Rendre disponible"
-                    inactive-text="Rendre indisponible"
+                    active-text="disponible"
+                    inactive-text="indisponible"
                     active-color="#13ce66"
                     inactive-color="#ff4949"
                 >
                     >
                 </el-switch>
                 <br /><br />
+                <el-popover
+                    placement="top"
+                    width="160"
+                    v-model="confirmAdDeletion"
+                >
+                    <p>Confirmer la suppression</p>
+                    <div style="text-align: right; margin: 0">
+                        <el-button
+                            size="mini"
+                            type="text"
+                            @click="confirmAdDeletion = false"
+                            >Non</el-button
+                        >
+                        <el-button
+                            type="primary"
+                            size="mini"
+                            @click="deleteAd(ad.id)"
+                            >Oui</el-button
+                        >
+                    </div>
+                    <el-button slot="reference" type="danger"
+                        >Supprimer l'annonce</el-button
+                    >
+                </el-popover>
+                <br />
+                <br />
             </div>
+            Mis à disposition par
             <pop-profil :user="ad.author"></pop-profil>
             <br />
             <br />
@@ -252,6 +282,7 @@ export default {
     props: ["ads"],
     data() {
         return {
+            confirmAdDeletion: false,
             geoJSONSearch: [47.41322, -1.219482],
             dialogAdVisible: false,
             ad: {
@@ -295,6 +326,38 @@ export default {
                         );
                         modifiedAd.available = resp.data.updateOneAd.available;
                         this.$message.success("Annonce mise à jour");
+                    }
+                })
+                .catch((error) => {
+                    this.$message.error(error);
+                });
+        },
+        async deleteAd(id) {
+            this.confirmAdDeletion = false;
+            return await this.$apollo
+                .mutate({
+                    mutation: gql`
+                        mutation deleteAd($id: String!) {
+                            deleteOneAd(where: { id: $id }) {
+                                id
+                            }
+                        }
+                    `,
+                    variables: {
+                        id,
+                    },
+                })
+                .then((resp) => {
+                    if (resp.errors) {
+                        this.$message.error(resp.errors[0].message);
+                    } else {
+                        this.$emit("refetchAds");
+                        this.dialogAdVisible = false;
+                        this.$router.push({
+                            name: "eggs-market-category",
+                            query: {},
+                        });
+                        this.$message.success("Annonce supprimée");
                     }
                 })
                 .catch((error) => {
