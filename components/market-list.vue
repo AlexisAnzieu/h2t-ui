@@ -16,11 +16,8 @@
                 <cld-image
                     class="card-img"
                     :public-id="
-                        ad.picture
-                            ? ad.picture.replace('.heic', '.jpg')
-                            : 'https://res.cloudinary.com/dkbuiehgq/image/upload/v1613112508/H2T/ads/ads_placeholder.svg'
+                        ad.picture ? ad.picture.replace('.heic', '.jpg') : ''
                     "
-                    width="100%"
                     height="100%"
                     crop="fill"
                     fetchFormat="auto"
@@ -96,172 +93,199 @@
         </el-col>
 
         <el-dialog
+            width="80%"
             v-if="ad.author"
             :before-close="handleClose"
             :fullscreen="$device.isMobile"
             :title="ad.available ? ad.title : ad.title + ' (indisponible)'"
             :visible.sync="dialogAdVisible"
         >
-            <div v-if="ad.categories === 'JEU'">
-                <el-row :span="24">
-                    <el-col :sm="12" :md="6">
-                        Jouabilité:
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            :content="`Jouabilité ${ad.additionalData.rating}/5`"
-                            placement="left"
-                        >
-                            <el-rate
-                                v-if="ad.additionalData"
-                                disabled
-                                :max="5"
-                                v-model="ad.additionalData.rating"
-                            ></el-rate>
-                        </el-tooltip>
-                        <br />
-                    </el-col>
-                    <el-col :sm="12" :md="6">
-                        Complexité:
-                        <el-tooltip
-                            class="item"
-                            effect="dark"
-                            :content="`Complexité ${ad.additionalData.difficulty}/5`"
-                            placement="left"
-                        >
-                            <el-rate
-                                :icon-classes="['el-icon-cpu']"
-                                disabled-void-icon-class="el-icon-cpu"
-                                v-if="ad.additionalData"
-                                disabled
-                                :max="5"
-                                v-model="ad.additionalData.difficulty"
-                            ></el-rate></el-tooltip
-                        ><br
-                    /></el-col>
-                    <el-col :sm="12" :md="6">
-                        <i class="el-icon-user"></i>
-                        <span
-                            v-if="
-                                ad.additionalData.minPlayers &&
-                                ad.additionalData.maxPlayers
-                            "
-                        >
-                            {{
-                                ad.additionalData
-                                    ? `${ad.additionalData.minPlayers} - ${ad.additionalData.maxPlayers} joueurs`
-                                    : "pas de données"
-                            }}
-                        </span>
-                        <span v-else>Aucune donnée</span></el-col
+            <el-row :span="24">
+                <el-col
+                    :sm="24"
+                    :md="12"
+                    style="padding: 30px; text-align: center"
+                >
+                    <cld-image
+                        width="100%"
+                        height="100%"
+                        :public-id="
+                            ad.picture
+                                ? ad.picture.replace('.heic', '.jpg')
+                                : ''
+                        "
+                        crop="fill"
+                        fetchFormat="auto"
+                        quality="auto"
                     >
-                    <el-col :sm="12" :md="6">
-                        <i class="el-icon-timer"></i>
-                        <span
-                            v-if="
-                                ad.additionalData.minPlayers &&
-                                ad.additionalData.maxPlayers
-                            "
-                        >
-                            {{
-                                ad.additionalData
-                                    ? `${ad.additionalData.playingTime} minutes`
-                                    : "pas de données"
-                            }}
-                        </span>
-                        <span v-else>Aucune donnée</span></el-col
-                    >
-                </el-row>
+                    </cld-image>
+                </el-col>
+                <el-col :sm="24" :md="12">
+                    <div v-if="ad.categories === 'JEU'">
+                        <el-row :span="24">
+                            <el-col :sm="12" :md="6">
+                                Jouabilité:
+                                <el-tooltip
+                                    class="item"
+                                    effect="dark"
+                                    :content="`Jouabilité ${ad.additionalData.rating}/5`"
+                                    placement="left"
+                                >
+                                    <el-rate
+                                        v-if="ad.additionalData"
+                                        disabled
+                                        :max="5"
+                                        v-model="ad.additionalData.rating"
+                                    ></el-rate>
+                                </el-tooltip>
+                                <br />
+                            </el-col>
+                            <el-col :sm="12" :md="6">
+                                Complexité:
+                                <el-tooltip
+                                    class="item"
+                                    effect="dark"
+                                    :content="`Complexité ${ad.additionalData.difficulty}/5`"
+                                    placement="left"
+                                >
+                                    <el-rate
+                                        :icon-classes="['el-icon-cpu']"
+                                        disabled-void-icon-class="el-icon-cpu"
+                                        v-if="ad.additionalData"
+                                        disabled
+                                        :max="5"
+                                        v-model="ad.additionalData.difficulty"
+                                    ></el-rate></el-tooltip
+                                ><br
+                            /></el-col>
+                            <el-col :sm="12" :md="6">
+                                <i class="el-icon-user"></i>
+                                <span
+                                    v-if="
+                                        ad.additionalData.minPlayers &&
+                                        ad.additionalData.maxPlayers
+                                    "
+                                >
+                                    {{
+                                        ad.additionalData
+                                            ? `${ad.additionalData.minPlayers} - ${ad.additionalData.maxPlayers} joueurs`
+                                            : "pas de données"
+                                    }}
+                                </span>
+                                <span v-else>Aucune donnée</span></el-col
+                            >
+                            <el-col :sm="12" :md="6">
+                                <i class="el-icon-timer"></i>
+                                <span
+                                    v-if="
+                                        ad.additionalData.minPlayers &&
+                                        ad.additionalData.maxPlayers
+                                    "
+                                >
+                                    {{
+                                        ad.additionalData
+                                            ? `${ad.additionalData.playingTime} minutes`
+                                            : "pas de données"
+                                    }}
+                                </span>
+                                <span v-else>Aucune donnée</span></el-col
+                            >
+                        </el-row>
 
-                <br />
-            </div>
-            <div v-if="ad.author.id === $auth.user.id">
-                Merci d'avoir déposé cette annonce!
-                <br />
-                <br />
-                <el-switch
-                    @change="updateAdAvailability(ad.id, ad.available)"
-                    v-model="ad.available"
-                    active-text="disponible"
-                    inactive-text="indisponible"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                >
-                    >
-                </el-switch>
-                <br /><br />
-                <el-popover
-                    placement="top"
-                    width="160"
-                    v-model="confirmAdDeletion"
-                >
-                    <p>Confirmer la suppression</p>
-                    <div style="text-align: right; margin: 0">
-                        <el-button
-                            size="mini"
-                            type="text"
-                            @click="confirmAdDeletion = false"
-                            >Non</el-button
-                        >
-                        <el-button
-                            type="primary"
-                            size="mini"
-                            @click="deleteAd(ad.id)"
-                            >Oui</el-button
-                        >
+                        <br />
                     </div>
-                    <el-button slot="reference" type="danger"
-                        >Supprimer l'annonce</el-button
+                    <div v-if="ad.author.id === $auth.user.id">
+                        Merci d'avoir déposé cette annonce!
+                        <br />
+                        <br />
+                        <el-switch
+                            @change="updateAdAvailability(ad.id, ad.available)"
+                            v-model="ad.available"
+                            active-text="disponible"
+                            inactive-text="indisponible"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949"
+                        >
+                            >
+                        </el-switch>
+                        <br /><br />
+                        <el-popover
+                            placement="top"
+                            width="160"
+                            v-model="confirmAdDeletion"
+                        >
+                            <p>Confirmer la suppression</p>
+                            <div style="text-align: right; margin: 0">
+                                <el-button
+                                    size="mini"
+                                    type="text"
+                                    @click="confirmAdDeletion = false"
+                                    >Non</el-button
+                                >
+                                <el-button
+                                    type="primary"
+                                    size="mini"
+                                    @click="deleteAd(ad.id)"
+                                    >Oui</el-button
+                                >
+                            </div>
+                            <el-button slot="reference" type="danger"
+                                >Supprimer l'annonce</el-button
+                            >
+                        </el-popover>
+                        <br />
+                        <br />
+                    </div>
+                    Mis à disposition par
+                    <pop-profil :user="ad.author"></pop-profil>
+                    <br />
+                    <br />
+                    <a
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        :href="`mailto:${ad.author.email}?subject=Prêt sur H2T - ${ad.title}`"
+                        ><el-button type="primary"
+                            ><em class="el-icon-message"></em> envoyer un email
+                            à
+                            {{ ad.author.firstName }}
+                        </el-button></a
                     >
-                </el-popover>
-                <br />
-                <br />
-            </div>
-            Mis à disposition par
-            <pop-profil :user="ad.author"></pop-profil>
-            <br />
-            <br />
-            <a
-                rel="noopener noreferrer"
-                target="_blank"
-                :href="`mailto:${ad.author.email}?subject=Prêt sur H2T - ${ad.title}`"
-                ><el-button type="primary"
-                    ><em class="el-icon-message"></em> envoyer un email à
-                    {{ ad.author.firstName }}
-                </el-button></a
-            >
-            <br />
-            <br />
-            <a
-                rel="noopener noreferrer"
-                target="_blank"
-                v-if="ad.author.facebookUrl"
-                :href="ad.author.facebookUrl | parseFbMessenger"
-                ><el-button type="primary"
-                    ><em class="el-icon-chat-dot-round"></em> contacter
-                    {{ ad.author.firstName }} par facebook</el-button
-                ></a
-            >
-            <div id="map-wrap" style="height: 20vh; margin-top: 20px">
-                <client-only>
-                    <l-map :zoom="15" :center="this.geoJSONSearch">
-                        <l-tile-layer
-                            url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                        ></l-tile-layer>
-                        <l-marker :lat-lng="this.geoJSONSearch"></l-marker>
-                    </l-map>
-                </client-only>
-            </div>
-            <div v-if="ad.description != ''">
-                <el-divider></el-divider>
-                <span style="font-size: 30px">“</span>
-                <span
-                    style="font-size: 20px; word-break: keep-all"
-                    v-html="linkDetection(ad.description)"
-                >
-                </span>
-                <span style="font-size: 30px">”</span>
-            </div>
+                    <br />
+                    <br />
+                    <a
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        v-if="ad.author.facebookUrl"
+                        :href="ad.author.facebookUrl | parseFbMessenger"
+                        ><el-button type="primary"
+                            ><em class="el-icon-chat-dot-round"></em> contacter
+                            {{ ad.author.firstName }} par facebook</el-button
+                        ></a
+                    >
+                    <div id="map-wrap" style="height: 20vh; margin-top: 20px">
+                        <client-only>
+                            <l-map :zoom="15" :center="this.geoJSONSearch">
+                                <l-tile-layer
+                                    url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                                ></l-tile-layer>
+                                <l-marker
+                                    :lat-lng="this.geoJSONSearch"
+                                ></l-marker>
+                            </l-map>
+                        </client-only>
+                    </div>
+                    <div v-if="ad.description != ''">
+                        <el-divider></el-divider>
+                        <span style="font-size: 30px">“</span>
+                        <span
+                            style="font-size: 20px; word-break: keep-all"
+                            v-html="linkDetection(ad.description)"
+                        >
+                        </span>
+                        <span style="font-size: 30px">”</span>
+                    </div>
+                </el-col>
+            </el-row>
         </el-dialog>
     </el-row>
 </template>
