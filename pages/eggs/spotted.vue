@@ -185,7 +185,7 @@ export default {
                         mutation createPoem(
                             $title: String!
                             $description: String!
-                            $author: Int
+                            $author: String
                         ) {
                             createOnePoem(
                                 data: {
