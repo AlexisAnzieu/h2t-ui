@@ -481,7 +481,7 @@ export default {
                         parsedResponse.items.item.statistics.ratings
                             .averageweight["@_value"],
                         2
-                    ) / 2,
+                    ),
                 minPlayers: parsedResponse.items.item.minplayers?.["@_value"],
                 maxPlayers: parsedResponse.items.item.maxplayers?.["@_value"],
                 playingTime: parsedResponse.items.item.playingtime?.["@_value"],

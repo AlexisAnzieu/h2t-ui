@@ -48,7 +48,7 @@
                             placement="left"
                         >
                             <el-rate
-                                :icon-classes="['el-icon-cpu']"
+                                :iconClasses="['el-icon-cpu', 'el-icon-cpu', 'el-icon-cpu']"
                                 disabled-void-icon-class="el-icon-cpu"
                                 v-if="ad.additionalData"
                                 disabled
@@ -149,7 +149,7 @@
                                     placement="left"
                                 >
                                     <el-rate
-                                        :icon-classes="['el-icon-cpu']"
+                                        :iconClasses="['el-icon-cpu', 'el-icon-cpu', 'el-icon-cpu']"
                                         disabled-void-icon-class="el-icon-cpu"
                                         v-if="ad.additionalData"
                                         disabled
