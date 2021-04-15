@@ -44,12 +44,13 @@
             <br />
             <br />
             <h4>
-                Ton embarquement est complété à
-                {{ this.$auth.user.level * 25 }}%
+                🎉🎉 Ton embarquement est complété à
+                {{ this.$auth.user.level * 25 }}% 🎉🎉
             </h4>
             <br />
             <h3 v-if="this.$auth.user.level === 1">
-                Clique sur le cercle au dessus de ton prénom et ajoute une photo de profil
+                Clique sur le cercle au dessus de ton prénom et ajoute une photo
+                de profil
             </h3>
             <h3 v-if="this.$auth.user.level === 2">
                 N'hésite pas à partager un de tes bien en
