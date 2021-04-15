@@ -451,7 +451,7 @@ export default {
                 ? jsonObj.items.item
                 : [jsonObj.items.item];
 
-            const printedResult = arrayResult.slice(0, 10).map((item) => {
+            const printedResult = arrayResult.slice(0, 15).map((item) => {
                 return { value: item.name["@_value"], id: item["@_id"] };
             });
             cb(printedResult);
@@ -476,12 +476,12 @@ export default {
                         ],
                         2
                     ) / 2,
-                difficulty:
-                    _.ceil(
-                        parsedResponse.items.item.statistics.ratings
-                            .averageweight["@_value"],
-                        2
-                    ),
+                difficulty: _.ceil(
+                    parsedResponse.items.item.statistics.ratings.averageweight[
+                        "@_value"
+                    ],
+                    2
+                ),
                 minPlayers: parsedResponse.items.item.minplayers?.["@_value"],
                 maxPlayers: parsedResponse.items.item.maxplayers?.["@_value"],
                 playingTime: parsedResponse.items.item.playingtime?.["@_value"],
