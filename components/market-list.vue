@@ -164,9 +164,8 @@
                         </el-popover>
                         <br />
                         <br />
+                        <el-divider></el-divider>
                     </div>
-                    <el-divider></el-divider>
-
                     <div v-if="ad.categories === 'JEU'">
                         <el-row :span="24">
                             <el-col :sm="12" :md="6">
@@ -243,9 +242,8 @@
                         </el-row>
 
                         <br />
+                        <el-divider></el-divider>
                     </div>
-                    <el-divider></el-divider>
-
                     Mis à disposition par
                     <pop-profil :user="ad.author"></pop-profil>
                     <br />
