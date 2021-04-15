@@ -48,7 +48,11 @@
                             placement="left"
                         >
                             <el-rate
-                                :iconClasses="['el-icon-cpu', 'el-icon-cpu', 'el-icon-cpu']"
+                                :iconClasses="[
+                                    'el-icon-cpu',
+                                    'el-icon-cpu',
+                                    'el-icon-cpu',
+                                ]"
                                 disabled-void-icon-class="el-icon-cpu"
                                 v-if="ad.additionalData"
                                 disabled
@@ -121,6 +125,48 @@
                     </cld-image>
                 </el-col>
                 <el-col :sm="24" :md="12">
+                    <div v-if="ad.author.id === $auth.user.id">
+                        <br />
+                        <el-switch
+                            @change="updateAdAvailability(ad.id, ad.available)"
+                            v-model="ad.available"
+                            active-text="disponible"
+                            inactive-text="indisponible"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949"
+                        >
+                            >
+                        </el-switch>
+                        <br /><br />
+                        <el-popover
+                            placement="top"
+                            width="160"
+                            v-model="confirmAdDeletion"
+                        >
+                            <p>Confirmer la suppression</p>
+                            <div style="text-align: right; margin: 0">
+                                <el-button
+                                    size="mini"
+                                    type="text"
+                                    @click="confirmAdDeletion = false"
+                                    >Non</el-button
+                                >
+                                <el-button
+                                    type="primary"
+                                    size="mini"
+                                    @click="deleteAd(ad.id)"
+                                    >Oui</el-button
+                                >
+                            </div>
+                            <el-button slot="reference" type="danger"
+                                >Supprimer l'annonce</el-button
+                            >
+                        </el-popover>
+                        <br />
+                        <br />
+                    </div>
+                    <el-divider></el-divider>
+
                     <div v-if="ad.categories === 'JEU'">
                         <el-row :span="24">
                             <el-col :sm="12" :md="6">
@@ -149,7 +195,11 @@
                                     placement="left"
                                 >
                                     <el-rate
-                                        :iconClasses="['el-icon-cpu', 'el-icon-cpu', 'el-icon-cpu']"
+                                        :iconClasses="[
+                                            'el-icon-cpu',
+                                            'el-icon-cpu',
+                                            'el-icon-cpu',
+                                        ]"
                                         disabled-void-icon-class="el-icon-cpu"
                                         v-if="ad.additionalData"
                                         disabled
@@ -194,48 +244,8 @@
 
                         <br />
                     </div>
-                    <div v-if="ad.author.id === $auth.user.id">
-                        Merci d'avoir déposé cette annonce!
-                        <br />
-                        <br />
-                        <el-switch
-                            @change="updateAdAvailability(ad.id, ad.available)"
-                            v-model="ad.available"
-                            active-text="disponible"
-                            inactive-text="indisponible"
-                            active-color="#13ce66"
-                            inactive-color="#ff4949"
-                        >
-                            >
-                        </el-switch>
-                        <br /><br />
-                        <el-popover
-                            placement="top"
-                            width="160"
-                            v-model="confirmAdDeletion"
-                        >
-                            <p>Confirmer la suppression</p>
-                            <div style="text-align: right; margin: 0">
-                                <el-button
-                                    size="mini"
-                                    type="text"
-                                    @click="confirmAdDeletion = false"
-                                    >Non</el-button
-                                >
-                                <el-button
-                                    type="primary"
-                                    size="mini"
-                                    @click="deleteAd(ad.id)"
-                                    >Oui</el-button
-                                >
-                            </div>
-                            <el-button slot="reference" type="danger"
-                                >Supprimer l'annonce</el-button
-                            >
-                        </el-popover>
-                        <br />
-                        <br />
-                    </div>
+                    <el-divider></el-divider>
+
                     Mis à disposition par
                     <pop-profil :user="ad.author"></pop-profil>
                     <br />
