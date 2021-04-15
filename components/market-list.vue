@@ -162,9 +162,9 @@
                                 >Supprimer l'annonce</el-button
                             >
                         </el-popover>
-                        <br />
-                        <br />
                         <el-divider></el-divider>
+                        <br />
+                        <br />
                     </div>
                     <div v-if="ad.categories === 'JEU'">
                         <el-row :span="24">
