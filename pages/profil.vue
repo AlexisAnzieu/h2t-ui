@@ -150,7 +150,6 @@
             <br />
             <br />
 
-            <!-- TODO check if user is already in the list before sending an invite -->
             <el-input
                 style="width: 300px"
                 :disabled="invitationsToSend.length === 0"
@@ -288,9 +287,9 @@ export default {
     },
     computed: {
         sentInvitations() {
-            return this.user.invitations.filter(
-                (invitation) => invitation.sent
-            );
+            return this.user.invitations
+                .filter((invitation) => invitation.sent)
+                .sort((a, b) => a.sent.localeCompare(b.sent));
         },
         invitationsToSend() {
             return this.user.invitations.filter(
