@@ -6,21 +6,21 @@ export default {
    */
   head: {
     title: "H2T.club",
-    // meta: [
-    //   { charset: "utf-8" },
-    //   { name: "viewport", content: "width=device-width, initial-scale=1" },
-    //   {
-    //     hid: "description",
-    //     name: "description",
-    //     content: "Réseau intrasocial communautaire H2T"
-    //   },
-    //   { hid: "title", property: "og:title", content: "H2T.club" },
-    //   {
-    //     hid: "image",
-    //     property: "og:image",
-    //     content: "/images/facebook-logo-OG.png"
-    //   },
-    // ],
+    meta: [
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content: "Réseau intrasocial communautaire H2T"
+      },
+      { hid: "title", property: "og:title", content: "H2T.club" },
+      {
+        hid: "image",
+        property: "og:image",
+        content: "/images/facebook-logo-OG.png"
+      },
+    ],
     script: [{ src: "https://widget.cloudinary.com/v2.0/global/all.js" }],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },

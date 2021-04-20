@@ -8,6 +8,13 @@
                     </template>
                     <el-card class="box-card">
                         <div class="description">
+                            <div style="text-align: left; margin-bottom: 20px">
+                                Zéro préparation, zéro sujet prédéfini, zéro
+                                expérience. Tour de passe-passe écologique,
+                                spirituel, éducatif et rêveur entre les copains
+                                du Plateau Clémentin, Hugo, Sandro et Alexis.
+                            </div>
+
                             <iframe
                                 title="S01"
                                 src="https://open.spotify.com/embed-podcast/episode/3LfY19oLQZZGrWhWvssp12"
