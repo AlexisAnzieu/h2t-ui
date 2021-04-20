@@ -1,6 +1,12 @@
 <template>
     <el-col style="padding-top: 30px; padding-left: 10px" :md="{ span: 22 }">
-        <el-row>
+        <el-row v-if="$auth.user.level == 1" style="text-align: center">
+            <h4>
+                Cette section sera débloquée dès que tu auras ajouté une photo
+                de profil!
+            </h4>
+        </el-row>
+        <el-row v-else>
             <el-col
                 :style="$device.isDesktop ? 'position: fixed' : ''"
                 :sm="24"
@@ -70,7 +76,7 @@
 
             <el-col :sm="24" :md="{ span: 20, offset: 4 }">
                 <el-alert
-                    v-if="$auth.user.level === 2"
+                    v-if="$auth.user.level == 2"
                     :closable="false"
                     title="N'oublie pas de déposer une annonce"
                     type="warning"
