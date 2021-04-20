@@ -120,4 +120,8 @@ export default {
 .description {
     padding: 20px;
 }
+
+iframe {
+    border: 0;
+}
 </style>
