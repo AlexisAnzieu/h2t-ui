@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch')
 
 module.exports = async (_, res) => {
     const result = await fetch(`http://${STATIC_IP}:8080/api`);
