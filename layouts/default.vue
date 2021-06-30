@@ -101,6 +101,12 @@
                                 >
                                 <el-dropdown-item
                                     divided
+                                    command="openDoor"
+                                    icon="el-icon-thumb"
+                                    >Ouvrir la porte</el-dropdown-item
+                                >
+                                <el-dropdown-item
+                                    divided
                                     command="logout"
                                     style="color: red"
                                     icon="el-icon-switch-button"
@@ -179,7 +185,7 @@ export default {
                 message: "Tu es maintenant déconnecté",
             });
         },
-        userOptions: function (command) {
+        userOptions: async function (command) {
             switch (command) {
                 case "logout":
                     this.logout();
@@ -188,6 +194,10 @@ export default {
                     this.$router.push({
                         path: "/profil",
                     });
+                    break;
+                case "openDoor":
+                    const res = await fetch("http://192.168.0.24:5000/api");
+                    console.log(res);
                     break;
                 default:
                     break;
