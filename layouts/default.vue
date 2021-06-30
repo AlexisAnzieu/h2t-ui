@@ -196,8 +196,15 @@ export default {
                     });
                     break;
                 case "openDoor":
-                    const res = await fetch("http://192.168.0.24:5000/api");
-                    console.log(res);
+                    const result = await fetch("/api/openDoor");
+                    const data = await result.json();
+                    if (data.msg === "ok") {
+                        this.$message.success({
+                            message: "Porte ouverte",
+                        });
+                    } else {
+                        this.$message.error(data);
+                    }
                     break;
                 default:
                     break;
