@@ -26,6 +26,7 @@
     "js-cookie": "^2.2.1",
     "leaflet-geosearch": "^2.7.0",
     "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1",
     "nuxt": "^2.14.7",
     "nuxt-leaflet": "0.0.19",
     "prettier": "^2.2.1",
