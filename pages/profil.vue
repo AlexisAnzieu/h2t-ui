@@ -28,9 +28,14 @@
                     Portée {{ this.$auth.user.level }}</el-button
                 >
             </el-popover>
-
             <br />
             <br />
+            <el-button
+                type="warning"
+                v-if="user.hasDoorAccess"
+                @click="openDoor()"
+                >Ouvrir la porte secrète H2T</el-button
+            >
             <el-steps
                 v-if="this.$auth.user.level < 4"
                 :active="this.$auth.user.level + 1"
@@ -64,6 +69,8 @@
         </el-col>
 
         <el-col class="user-form" v-loading="$apollo.loading" :md="11" :sm="24">
+            <br />
+
             <el-form ref="form" :model="user" label-width="120px">
                 <el-form-item
                     v-if="this.$auth.user.level >= 3"
@@ -216,6 +223,7 @@ export default {
             ads: [],
             inviteEmail: null,
             user: {
+                hasDoorAccess: false,
                 picture: null,
                 facebookUrl: null,
                 email: null,
@@ -233,6 +241,7 @@ export default {
                 query getUserProfile($userId: String!) {
                     user(where: { id: $userId }) {
                         picture
+                        hasDoorAccess
                         birthday
                         facebookUrl
                         email
@@ -362,6 +371,17 @@ export default {
         async updatePicture(picture) {
             this.user.picture = picture;
             this.updateUser();
+        },
+        async openDoor() {
+            const result = await fetch("/api/openDoor");
+            const data = await result.json();
+            if (data.msg === "ok") {
+                this.$message.success({
+                    message: "Porte ouverte",
+                });
+            } else {
+                this.$message.error(data);
+            }
         },
         async updateUser() {
             if (this.user.picture && this.$auth.user.level === 1) {

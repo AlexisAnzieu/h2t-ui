@@ -101,12 +101,6 @@
                                 >
                                 <el-dropdown-item
                                     divided
-                                    command="openDoor"
-                                    icon="el-icon-thumb"
-                                    >Ouvrir la porte</el-dropdown-item
-                                >
-                                <el-dropdown-item
-                                    divided
                                     command="logout"
                                     style="color: red"
                                     icon="el-icon-switch-button"
@@ -194,17 +188,6 @@ export default {
                     this.$router.push({
                         path: "/profil",
                     });
-                    break;
-                case "openDoor":
-                    const result = await fetch("/api/openDoor");
-                    const data = await result.json();
-                    if (data.msg === "ok") {
-                        this.$message.success({
-                            message: "Porte ouverte",
-                        });
-                    } else {
-                        this.$message.error(data);
-                    }
                     break;
                 default:
                     break;
