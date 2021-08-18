@@ -21,7 +21,7 @@ export default {
     computed: {
         disabledDoor() {
             const hours = new Date().getHours();
-            return !(hours === 13 || hours === 19 || hours === 20);
+            return !(hours === 18 || hours === 19 || hours === 20);
         },
     },
     methods: {

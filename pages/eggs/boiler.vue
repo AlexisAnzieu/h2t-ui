@@ -3,6 +3,25 @@
         <el-col :lg="{ span: 21, offset: 1 }" :md="24" style="padding: 10px">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
+                    <span>29 juillet 2021</span>
+                    <div class="subtitle">Jamjazz</div>
+                </div>
+                <div class="description">
+                    <iframe
+                        title="boiler"
+                        :width="$device.isMobile ? '100%' : '60%'"
+                        height="315"
+                        src="https://www.youtube.com/embed/xWzacY1VKXE"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </el-card>
+        </el-col>
+
+        <el-col :lg="{ span: 21, offset: 1 }" :md="24" style="padding: 10px">
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
                     <span>15 avril 2021</span>
                     <div class="subtitle">SoundCrate X Jeremy</div>
                 </div>
