@@ -379,9 +379,14 @@ export default {
                 this.$message.success({
                     message: "Porte ouverte",
                 });
+                await toggleLight();
             } else {
                 this.$message.error(data);
             }
+        },
+        async toggleLight() {
+            await fetch("/api/toggleLight");
+            await result.json();
         },
         async updateUser() {
             if (this.user.picture && this.$auth.user.level === 1) {
