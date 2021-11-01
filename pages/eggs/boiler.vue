@@ -3,6 +3,49 @@
         <el-col :lg="{ span: 21, offset: 1 }" :md="24" style="padding: 10px">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
+                    <span>30 octobre 2021</span>
+                    <div class="subtitle">XX Halloween</div>
+                </div>
+                <div class="description">
+                    <iframe
+                        title="boiler"
+                        :width="$device.isMobile ? '100%' : '60%'"
+                        height="315"
+                        src="https://www.youtube.com/embed/624X4iVqoBQ"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                    <iframe
+                        title="boiler"
+                        :width="$device.isMobile ? '100%' : '60%'"
+                        height="315"
+                        src="https://www.youtube.com/embed/T9wx0XTU0nA"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                    <iframe
+                        title="boiler"
+                        :width="$device.isMobile ? '100%' : '60%'"
+                        height="315"
+                        src="https://www.youtube.com/embed/x2UjGP_Qktc"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                    <iframe
+                        title="boiler"
+                        :width="$device.isMobile ? '100%' : '60%'"
+                        height="315"
+                        src="https://www.youtube.com/embed/djL3nWoRNT4"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </el-card>
+        </el-col>
+
+        <el-col :lg="{ span: 21, offset: 1 }" :md="24" style="padding: 10px">
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
                     <span>18 août 2021</span>
                     <div class="subtitle">Boiler Rhum</div>
                 </div>
