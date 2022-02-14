@@ -136,6 +136,7 @@
                     </el-input>
                 </el-form-item>
             </el-form>
+            <Activities />
         </el-col>
         <el-col
             v-if="$auth.user.level >= 4"
@@ -312,7 +313,7 @@ export default {
         },
         async updateInvitation(invitation, email = null) {
             this.loadingApollo = true;
-            return await this.$apollo
+            return this.$apollo
                 .mutate({
                     mutation: gql`
                         mutation updateInvitation(
@@ -395,7 +396,7 @@ export default {
             if (this.user.description && this.$auth.user.level === 3) {
                 this.user.level = 4;
             }
-            return await this.$apollo
+            return this.$apollo
                 .mutate({
                     mutation: gql`
                         mutation updateUser(
