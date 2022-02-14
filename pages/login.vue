@@ -86,7 +86,7 @@
                         ]"
                     >
                         <el-input v-model="signupForm.invitation"
-                            ><template slot="prepend">H2Ti</template></el-input
+                            ><template slot="prepend">H2T</template></el-input
                         >
                     </el-form-item>
                     <el-form-item
