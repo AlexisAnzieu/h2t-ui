@@ -136,7 +136,7 @@
                     </el-input>
                 </el-form-item>
             </el-form>
-            <Activities />
+            <Activities v-if="user.hasActivitiesAccess" />
         </el-col>
         <el-col
             v-if="$auth.user.level >= 4"
@@ -225,6 +225,7 @@ export default {
             inviteEmail: null,
             user: {
                 hasDoorAccess: false,
+                hasActivitiesAccess: false,
                 picture: null,
                 facebookUrl: null,
                 email: null,
@@ -243,6 +244,7 @@ export default {
                     user(where: { id: $userId }) {
                         picture
                         hasDoorAccess
+                        hasActivitiesAccess
                         birthday
                         facebookUrl
                         email
