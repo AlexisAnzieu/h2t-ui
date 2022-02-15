@@ -43,7 +43,7 @@ export default {
     },
     async fetch() {
         const activities = await fetch(
-            `http://localhost:3001/activities?user=${this.$auth.user.id}`
+            `https://pubsub.h2t.club/activities?user=${this.$auth.user.id}`
         ).then((res) => res.json());
         this.tableData = activities.map((activity) => {
             return {
@@ -68,7 +68,7 @@ export default {
             return row.location === value;
         },
         async handleClick(scope, method) {
-            await fetch("http://localhost:3001/activities/user", {
+            await fetch("https://pubsub.h2t.club/activities/user", {
                 method: method === "subscribe" ? "POST" : "DELETE",
                 headers: {
                     Accept: "application/json",
