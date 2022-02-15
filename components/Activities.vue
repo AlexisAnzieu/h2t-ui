@@ -1,6 +1,14 @@
 <template>
     <el-col>
         <h3>Activités de piscinade</h3>
+        <br />
+        <el-alert
+            title="Ne fonctionne que sur la semaine à venir"
+            type="warning"
+            :closable="false"
+            show-icon
+        >
+        </el-alert>
         <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="name" label="Nom"> </el-table-column>
             <el-table-column
