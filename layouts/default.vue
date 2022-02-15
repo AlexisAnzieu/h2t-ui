@@ -142,7 +142,7 @@ export default {
             return this.$nuxt.$route.path;
         },
         eggs: function () {
-            const tabs = ["ecologie", "boiler", "h2talk"];
+            const tabs = ["transition", "boiler", "talk"];
             if (this.$auth.user) {
                 tabs.push("calendar", "nous");
             }
