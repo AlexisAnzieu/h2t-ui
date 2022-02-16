@@ -144,7 +144,7 @@ export default {
         eggs: function () {
             const tabs = ["transition", "boiler", "talk", "calendar"];
             if (this.$auth.user) {
-                tabs.push("nous");
+                tabs.push("communauté");
             }
             if (this.$auth.user?.picture) {
                 tabs.push("market");
