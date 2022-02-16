@@ -73,7 +73,7 @@ import "dayjs/locale/fr";
 export default {
     head() {
         return {
-            title: "H2T.communauté",
+            title: "H2T.nous",
         };
     },
     data() {

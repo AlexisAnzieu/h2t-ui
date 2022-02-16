@@ -22,7 +22,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/v1612507002/H2T/nav/accueil.jpg')`"
+                            :style="`background-image: url('/images/nav/accueil.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -50,7 +50,7 @@
                             </div>
                         </nuxt-link>
                         <div
-                            :style="`background-image: url('https://res.cloudinary.com/dkbuiehgq/image/upload/f_auto/H2T/nav/${egg}.jpg')`"
+                            :style="`background-image: url('/images/nav/${egg}.jpg')`"
                             class="bg-image"
                         ></div>
                     </el-col>
@@ -144,7 +144,7 @@ export default {
         eggs: function () {
             const tabs = ["transition", "boiler", "talk", "calendar"];
             if (this.$auth.user) {
-                tabs.push("communauté");
+                tabs.push("nous");
             }
             if (this.$auth.user?.picture) {
                 tabs.push("market");
