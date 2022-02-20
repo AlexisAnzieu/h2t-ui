@@ -19,7 +19,7 @@
                 filter-placement="bottom-end"
             >
             </el-table-column>
-            <el-table-column fixed="right" label="Operations" width="120">
+            <el-table-column label="Operations">
                 <template slot-scope="scope">
                     <el-button
                         v-if="!scope.row.isUserSubscribed"
