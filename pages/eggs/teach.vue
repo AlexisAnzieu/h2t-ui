@@ -6,7 +6,7 @@
                     <span>Bonnes pratiques de finances personnelles</span>
                 </div>
                 <div style="padding: 20px; text-align: left">
-                    Démistifer le monde de l'investissement afin d'atteindre
+                    Démystifier le monde de l'investissement afin d'atteindre
                     l'indépendance financière en quelques étapes:
                     <br />
                     <br />
