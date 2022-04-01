@@ -6,7 +6,7 @@
                     <span>Fresque du Climat</span>
                 </div>
                 <div style="padding: 20px; text-align: left">
-                    H2T héberge des ateliers de la Fresque du Climat.
+                    Nous hébergeons des ateliers de la Fresque du Climat.
                     <a
                         rel="noopener noreferrer"
                         target="_blank"
@@ -40,8 +40,7 @@
                     <span>Les primitifs</span>
                 </div>
                 <div style="padding: 20px; text-align: left">
-                    Certains membres H2T participent activement à ces
-                    formations.
+                    Certains membres participent activement à ces formations.
                     <a
                         rel="noopener noreferrer"
                         target="_blank"
@@ -65,6 +64,27 @@
                     <a href="https://www.lesprimitifs.ca/nos-formations">
                         <el-button type="primary" plain
                             >En savoir plus</el-button
+                        ></a
+                    >
+                </div>
+            </el-card>
+        </el-col>
+        <el-col :xs="23" :sm="23" :md="12" style="padding: 10px">
+            <el-card>
+                <div slot="header">
+                    <span>Documentaires</span>
+                </div>
+                <div style="padding: 20px; text-align: left">
+                    Nous avons référencé un bon nombre de documentaires
+                    permettant d'appréhender les enjeux des changements
+                    climatiques et sociétaux.
+                    <br />
+                    <br />
+                    <a
+                        href="https://docs.google.com/spreadsheets/d/1lhk0222MjeaAeHhq2EMPAKu8Xzei3IeFi7ez-DjdBXM/edit?usp=sharing"
+                    >
+                        <el-button type="primary" plain
+                            >Accéder à la liste</el-button
                         ></a
                     >
                 </div>
