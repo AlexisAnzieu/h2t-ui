@@ -37,7 +37,7 @@
         <el-col :xs="23" :sm="23" :md="12" style="padding: 10px">
             <el-card>
                 <div slot="header">
-                    <span>Les primitifs</span>
+                    <span>Formation Les primitifs</span>
                 </div>
                 <div style="padding: 20px; text-align: left">
                     Certains membres participent activement à ces formations.
