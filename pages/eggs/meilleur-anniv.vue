@@ -22,7 +22,7 @@ export default {
     computed: {
         disabledDoor() {
             const hours = new Date().getHours();
-            return hours < 19;
+            return hours < 17;
         },
     },
     methods: {
