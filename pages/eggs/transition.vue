@@ -90,6 +90,25 @@
                 </div>
             </el-card>
         </el-col>
+        <el-col :xs="23" :sm="23" :md="12" style="padding: 10px">
+            <el-card>
+                <div slot="header">
+                    <span>Activités au Québec</span>
+                </div>
+                <div style="padding: 20px; text-align: left">
+                    Nous avons développé un site centralisant quelques activités
+                    à faire au Québec, afin de faciliter ce besoin d'évasion
+                    tout en évitant de prendre l'avion.
+                    <br />
+                    <br />
+                    <a href="https://acti.quebec/">
+                        <el-button type="primary" plain
+                            >Accéder à Actï</el-button
+                        ></a
+                    >
+                </div>
+            </el-card>
+        </el-col>
     </el-row>
 </template>
 
