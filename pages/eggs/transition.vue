@@ -139,9 +139,9 @@
                     <span>Les Compagnons Maraichers·ères</span>
                 </div>
                 <div style="padding: 20px; text-align: left">
-                    sont des équipes organisées et motivées de volontaires de la
-                    ville qui viennent prêter main-forte de façon ponctuelle sur
-                    des fermes écologiques de proximité.
+                    Ce sont des équipes organisées et motivées de volontaires de
+                    la ville qui viennent prêter main-forte de façon ponctuelle
+                    sur des fermes écologiques de proximité.
                     <br />
                     <br />
                     <a href="https://compagnonsmaraichers.org/">
