@@ -109,6 +109,49 @@
                 </div>
             </el-card>
         </el-col>
+        <el-col :xs="23" :sm="23" :md="12" style="padding: 10px">
+            <el-card>
+                <div slot="header">
+                    <span>Santropol Roulant</span>
+                </div>
+                <div style="padding: 20px; text-align: left">
+                    Santropol Roulant est un centre alimentaire et une
+                    communauté intergénérationnelle. En faisant pousser de la
+                    nourriture, en la préparant, et en la livrant aux
+                    Montréalaises et Montréalais, nous créons un continuum de
+                    services inspirants et engageants au bénéfice de la
+                    communauté, et nous renforçons le tissu social montréalais
+                    en faisant grandir la sécurité alimentaire en ville et
+                    l’inclusion sociale.
+                    <br />
+                    <br />
+                    <a href="https://santropolroulant.org/fr/">
+                        <el-button type="primary" plain
+                            >Accéder au site</el-button
+                        ></a
+                    >
+                </div>
+            </el-card>
+        </el-col>
+        <el-col :xs="23" :sm="23" :md="12" style="padding: 10px">
+            <el-card>
+                <div slot="header">
+                    <span>Les Compagnons Maraichers·ères</span>
+                </div>
+                <div style="padding: 20px; text-align: left">
+                    sont des équipes organisées et motivées de volontaires de la
+                    ville qui viennent prêter main-forte de façon ponctuelle sur
+                    des fermes écologiques de proximité.
+                    <br />
+                    <br />
+                    <a href="https://compagnonsmaraichers.org/">
+                        <el-button type="primary" plain
+                            >Accéder au site</el-button
+                        ></a
+                    >
+                </div>
+            </el-card>
+        </el-col>
     </el-row>
 </template>
 
