@@ -37,7 +37,7 @@
                         }"
                         :span="24"
                     >
-                        <nuxt-link :to="`/eggs/${egg}`">
+                        <nuxt-link v-if="egg !== 'market'" :to="`/eggs/${egg}`">
                             <div
                                 class="egg-title"
                                 :class="{
@@ -49,6 +49,15 @@
                                 .{{ egg }}
                             </div>
                         </nuxt-link>
+
+                        <a
+                            v-if="egg === 'market'"
+                            target="_blank"
+                            href="https://www.partage.club/"
+                        >
+                            <div class="egg-title">.partage</div>
+                        </a>
+
                         <div
                             :style="`background-image: url('/images/nav/${egg}.jpg')`"
                             class="bg-image"
@@ -142,12 +151,9 @@ export default {
             return this.$nuxt.$route.path;
         },
         eggs: function () {
-            const tabs = ["transition", "boiler", "talk", "teach"];
+            const tabs = ["transition", "boiler", "talk", "teach", "market"];
             if (this.$auth.user) {
                 tabs.push("nous");
-            }
-            if (this.$auth.user?.picture) {
-                tabs.push("market");
             }
             return tabs.sort();
         },
