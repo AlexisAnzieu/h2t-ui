@@ -37,7 +37,10 @@
                         }"
                         :span="24"
                     >
-                        <nuxt-link v-if="egg !== 'market'" :to="`/eggs/${egg}`">
+                        <nuxt-link
+                            v-if="egg !== 'market' && egg !== 'tech'"
+                            :to="`/eggs/${egg}`"
+                        >
                             <div
                                 class="egg-title"
                                 :class="{
@@ -56,6 +59,14 @@
                             href="https://www.partage.club/"
                         >
                             <div class="egg-title">.partage</div>
+                        </a>
+
+                        <a
+                            v-if="egg === 'tech'"
+                            target="_blank"
+                            href="https://tally.so/r/wd0XVo"
+                        >
+                            <div class="egg-title">.tech</div>
                         </a>
 
                         <div
@@ -151,7 +162,14 @@ export default {
             return this.$nuxt.$route.path;
         },
         eggs: function () {
-            const tabs = ["transition", "boiler", "talk", "teach", "market"];
+            const tabs = [
+                "transition",
+                "boiler",
+                "talk",
+                "teach",
+                "market",
+                "tech",
+            ];
             if (this.$auth.user) {
                 tabs.push("nous");
             }
