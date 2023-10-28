@@ -2,6 +2,32 @@
     <div class="body">
         <el-col :lg="{ span: 21, offset: 1 }" :md="24" style="padding: 10px">
             <el-collapse v-model="activeName" accordion>
+                <el-collapse-item title="H2TALK DEUX" name="deux">
+                    <template slot="title">
+                        <h2 style="text-align: center">H2TALK DEUX</h2>
+                    </template>
+                    <el-card class="box-card">
+                        <div class="description">
+                            <div style="text-align: left; margin-bottom: 20px">
+                                SAISON Trois: Zéro préparation, zéro sujet
+                                prédéfini, zéro expérience. Instants de partage
+                                entre quatre femmes concernant la place de la
+                                femme dans la société, la fatigue morale liée à
+                                l'hypersensibilité, l'acceptation des réalités
+                                de chacun, la place de l'éducation dans le
+                                patriarcat... Merci à Perle, Ksénia, Camille et
+                                Pauline pour cet échange à coeur ouvert.
+                            </div>
+                            <iframe
+                                title="S02"
+                                src="https://open.spotify.com/embed/episode/78vCbGHRUVy0VEddGA1Sb5?utm_source=generator"
+                                :width="$device.isMobile ? '100%' : '60%'"
+                                height="232"
+                                allow="encrypted-media"
+                            ></iframe>
+                        </div>
+                    </el-card>
+                </el-collapse-item>
                 <el-collapse-item title="H2TALK UN" name="un">
                     <template slot="title">
                         <h2 style="text-align: center">H2TALK UN</h2>
@@ -230,7 +256,7 @@ export default {
     auth: false,
     data() {
         return {
-            activeName: "un",
+            activeName: "deux",
         };
     },
 };
